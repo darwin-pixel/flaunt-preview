@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flaunt — Complete Screen Preview (Desktop &amp; Mobile)</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary-purple: #A94CE8;
+  --primary-pink: #E364C4;
+  --gold: #B8860B;
+  --dark-hero-bg: #1A0A2E;
+  --jet-black: #0C0C0C;
+  --light-gray-bg: #F5F5F5;
+  --dark-gray: #222222;
+  --mid-gray: #555555;
+  --silver: #EAEAEA;
+  --brand-gradient: linear-gradient(225deg, #A94CE8, #E364C4);
+  --hero-gradient: linear-gradient(180deg, #1A0A2E, #0C0C0C);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--jet-black);
+  color: #fff;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---- Hero ---- */
+.hero {
+  background: var(--hero-gradient);
+  text-align: center;
+  padding: 80px 24px 60px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -200px; right: -200px;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(169,76,232,0.15), transparent 70%);
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -150px; left: -150px;
+  width: 400px; height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(227,100,196,0.1), transparent 70%);
+}
+.hero img { height: 48px; margin-bottom: 24px; position: relative; z-index: 1; }
+.hero h1 {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(28px, 5vw, 48px);
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 16px;
+  position: relative; z-index: 1;
+}
+.hero h1 span {
+  background: var(--brand-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero p {
+  font-size: 16px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.6);
+  max-width: 520px;
+  margin: 0 auto;
+  position: relative; z-index: 1;
+}
+.hero .screen-count {
+  margin-top: 24px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary-purple);
+  position: relative; z-index: 1;
+}
+
+/* ---- Nav Tabs ---- */
+.screen-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(12,12,12,0.92);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding: 0 24px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.screen-nav::-webkit-scrollbar { display: none; }
+.screen-nav-inner {
+  display: flex;
+  gap: 0;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+.nav-tab {
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.4);
+  padding: 14px 16px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+}
+.nav-tab:hover { color: rgba(255,255,255,0.7); }
+.nav-tab.active {
+  color: var(--primary-purple);
+  border-bottom-color: var(--primary-purple);
+}
+.nav-tab .count {
+  font-size: 10px;
+  font-weight: 600;
+  background: rgba(169,76,232,0.15);
+  color: var(--primary-purple);
+  padding: 1px 6px;
+  border-radius: 8px;
+  margin-left: 4px;
+}
+
+/* ---- Section ---- */
+.screen-section {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 60px 24px;
+}
+.screen-section.hidden { display: none; }
+.section-header {
+  margin-bottom: 40px;
+}
+.section-tag {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--primary-purple);
+  margin-bottom: 12px;
+}
+.section-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(22px, 3vw, 32px);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.section-desc {
+  font-size: 14px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.5);
+  max-width: 700px;
+}
+
+/* ---- Subsection ---- */
+.subsection {
+  margin-bottom: 48px;
+}
+.subsection-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.8);
+}
+
+/* ---- Screen Pair ---- */
+.screen-pair {
+  display: grid;
+  grid-template-columns: 1fr 375px;
+  gap: 32px;
+  align-items: start;
+  margin-bottom: 48px;
+}
+.screen-pair.reverse {
+  grid-template-columns: 375px 1fr;
+}
+
+/* ---- Mobile Row (multiple mobile screens) ---- */
+.mobile-row {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 48px;
+}
+.mobile-item {
+  flex: 0 0 auto;
+}
+
+/* ---- Desktop Row (multiple desktop screens) ---- */
+.desktop-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+  gap: 32px;
+  margin-bottom: 48px;
+}
+
+/* ---- Screen Frame ---- */
+.frame-desktop {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 4px 40px rgba(0,0,0,0.4);
+  background: var(--light-gray-bg);
+  position: relative;
+}
+.frame-desktop .toolbar {
+  height: 36px;
+  background: #1a1a1a;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 6px;
+}
+.frame-desktop .dot {
+  width: 10px; height: 10px; border-radius: 50%;
+}
+.frame-desktop .dot.red { background: #FF5F56; }
+.frame-desktop .dot.yellow { background: #FFBD2E; }
+.frame-desktop .dot.green { background: #27C93F; }
+.frame-desktop .url-bar {
+  flex: 1;
+  height: 22px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.08);
+  margin-left: 12px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.35);
+}
+.frame-desktop img {
+  width: 100%;
+  display: block;
+}
+
+.frame-mobile {
+  width: 375px;
+  border-radius: 40px;
+  overflow: hidden;
+  border: 6px solid #2a2a2a;
+  box-shadow: 0 8px 48px rgba(0,0,0,0.5);
+  background: var(--jet-black);
+  position: relative;
+}
+.frame-mobile::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 120px; height: 28px;
+  background: #2a2a2a;
+  border-radius: 0 0 16px 16px;
+  z-index: 2;
+}
+.frame-mobile img {
+  width: 100%;
+  display: block;
+}
+
+.frame-label {
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.frame-label .badge {
+  font-size: 10px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: rgba(169,76,232,0.15);
+  color: var(--primary-purple);
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 1024px) {
+  .screen-pair,
+  .screen-pair.reverse {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+  .frame-desktop { max-width: 100%; }
+  .frame-mobile { max-width: 375px; }
+  .desktop-row { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+  .hero { padding: 48px 16px 40px; }
+  .screen-section { padding: 40px 16px; }
+  .frame-mobile {
+    width: 100%;
+    max-width: 320px;
+    border-radius: 32px;
+    border-width: 4px;
+  }
+  .nav-tab { padding: 12px 10px; font-size: 12px; }
+  .mobile-row { justify-content: center; }
+}
+
+/* ---- Footer ---- */
+.footer {
+  text-align: center;
+  padding: 48px 24px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.3);
+  font-size: 13px;
+}
+.footer img { height: 28px; margin-bottom: 12px; opacity: 0.4; }
+
+/* Divider */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(169,76,232,0.2), transparent);
+  max-width: 1600px;
+  margin: 0 auto;
+}
+</style>
+</head>
+<body>
+
+<!-- ================================ HERO ================================ -->
+<header class="hero">
+  <img src="./images/flaunt-wordmark.png" alt="Flaunt">
+  <h1>Every Screen.<br><span>Desktop &amp; Mobile.</span></h1>
+  <p>A complete walkthrough of the Flaunt platform — every screen from the design canvas, organized by feature area.</p>
+  <div class="screen-count">125 Screens &middot; 18 Sections &middot; Desktop + Mobile</div>
+</header>
+
+<!-- ================================ NAV ================================ -->
+<nav class="screen-nav">
+  <div class="screen-nav-inner">
+    <button class="nav-tab active" onclick="showSection('all')">All</button>
+    <button class="nav-tab" onclick="showSection('landing')">Landing <span class="count">2</span></button>
+    <button class="nav-tab" onclick="showSection('auth')">Auth <span class="count">15</span></button>
+    <button class="nav-tab" onclick="showSection('feed')">Feed <span class="count">2</span></button>
+    <button class="nav-tab" onclick="showSection('explore')">Explore <span class="count">4</span></button>
+    <button class="nav-tab" onclick="showSection('profile')">Profile <span class="count">5</span></button>
+    <button class="nav-tab" onclick="showSection('content')">Content <span class="count">12</span></button>
+    <button class="nav-tab" onclick="showSection('social')">Social <span class="count">8</span></button>
+    <button class="nav-tab" onclick="showSection('dashboard')">Dashboard <span class="count">6</span></button>
+    <button class="nav-tab" onclick="showSection('brand-boosts')">Boosts &amp; Ads <span class="count">14</span></button>
+    <button class="nav-tab" onclick="showSection('brand-settings')">Brand Settings <span class="count">10</span></button>
+    <button class="nav-tab" onclick="showSection('shop')">Branded Shop <span class="count">8</span></button>
+    <button class="nav-tab" onclick="showSection('boutique')">Boutique <span class="count">16</span></button>
+    <button class="nav-tab" onclick="showSection('admin')">Admin <span class="count">18</span></button>
+    <button class="nav-tab" onclick="showSection('guidelines')">Guidelines <span class="count">2</span></button>
+  </div>
+</nav>
+
+<!-- ================================ 01 LANDING ================================ -->
+<div class="screen-section" data-section="landing">
+  <div class="section-header">
+    <div class="section-tag">01 &mdash; Landing</div>
+    <div class="section-title">First Impressions</div>
+    <div class="section-desc">The marketing landing page — hero, features, social proof, and brand CTA. Full-width desktop layout and stacked mobile view.</div>
+  </div>
+  <div class="screen-pair">
+    <div>
+      <div class="frame-label">Desktop <span class="badge">1440px</span></div>
+      <div class="frame-desktop">
+        <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com</div></div>
+        <img src="./screenshots/31IxE.jpeg" alt="Landing Desktop">
+      </div>
+    </div>
+    <div>
+      <div class="frame-label">Mobile <span class="badge">375px</span></div>
+      <div class="frame-mobile"><img src="./screenshots/xfl3H.jpeg" alt="Landing Mobile"></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ================================ 02 AUTH ================================ -->
+<div class="screen-section" data-section="auth">
+  <div class="section-header">
+    <div class="section-tag">02 &mdash; Authentication</div>
+    <div class="section-title">Login, Sign Up &amp; Onboarding</div>
+    <div class="section-desc">Full auth flow: login, 4-step sign up wizard, forgot password, email verification, and brand registration. Glassmorphism cards with gradient backgrounds.</div>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">Login</div>
+    <div class="screen-pair">
+      <div>
+        <div class="frame-label">Login — Desktop <span class="badge">1440px</span></div>
+        <div class="frame-desktop">
+          <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/login</div></div>
+          <img src="./screenshots/kKQNR.jpeg" alt="Login Desktop">
+        </div>
+      </div>
+      <div>
+        <div class="frame-label">Login — Mobile <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/LNPwH.jpeg" alt="Login Mobile"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">Sign Up Flow (4 Steps)</div>
+    <div class="desktop-row">
+      <div>
+        <div class="frame-label">Step 1 — Desktop <span class="badge">1440px</span></div>
+        <div class="frame-desktop">
+          <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/signup</div></div>
+          <img src="./screenshots/PJx6l.jpeg" alt="Sign Up Step 1 Desktop">
+        </div>
+      </div>
+      <div>
+        <div class="frame-label">Step 2 — Desktop <span class="badge">1440px</span></div>
+        <div class="frame-desktop">
+          <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/signup/step-2</div></div>
+          <img src="./screenshots/YfPDs.jpeg" alt="Sign Up Step 2 Desktop">
+        </div>
+      </div>
+      <div>
+        <div class="frame-label">Step 3 — Desktop <span class="badge">1440px</span></div>
+        <div class="frame-desktop">
+          <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/signup/step-3</div></div>
+          <img src="./screenshots/nqgmw.jpeg" alt="Sign Up Step 3 Desktop">
+        </div>
+      </div>
+      <div>
+        <div class="frame-label">Step 4 — Desktop <span class="badge">1440px</span></div>
+        <div class="frame-desktop">
+          <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/signup/step-4</div></div>
+          <img src="./screenshots/5nlA7.jpeg" alt="Sign Up Step 4 Desktop">
+        </div>
+      </div>
+    </div>
+    <div class="mobile-row">
+      <div class="mobile-item">
+        <div class="frame-label">Step 1 <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/41Hwk.jpeg" alt="Sign Up Step 1 Mobile"></div>
+      </div>
+      <div class="mobile-item">
+        <div class="frame-label">Step 2 <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/BVSdY.jpeg" alt="Sign Up Step 2 Mobile"></div>
+      </div>
+      <div class="mobile-item">
+        <div class="frame-label">Step 3 <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/TsmzT.jpeg" alt="Sign Up Step 3 Mobile"></div>
+      </div>
+      <div class="mobile-item">
+        <div class="frame-label">Step 4 <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/y5evo.jpeg" alt="Sign Up Step 4 Mobile"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">Forgot Password &amp; Email Verification</div>
+    <div class="screen-pair">
+      <div>
+        <div class="frame-label">Forgot Password — Desktop <span class="badge">1440px</span></div>
+        <div class="frame-desktop">
+          <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/forgot-password</div></div>
+          <img src="./screenshots/JcQaA.jpeg" alt="Forgot Password Desktop">
+        </div>
+      </div>
+      <div>
+        <div class="frame-label">Forgot Password — Mobile <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/7z5Nr.jpeg" alt="Forgot Password Mobile"></div>
+      </div>
+    </div>
+    <div class="mobile-row">
+      <div class="mobile-item">
+        <div class="frame-label">Email Verification <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/R8dkW.jpeg" alt="Email Verification Mobile"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">Brand Registration (4 Steps)</div>
+    <div class="mobile-row">
+      <div class="mobile-item">
+        <div class="frame-label">Step 1 <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/x20bC.jpeg" alt="Brand Reg Step 1"></div>
+      </div>
+      <div class="mobile-item">
+        <div class="frame-label">Step 2 <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/6EL2b.jpeg" alt="Brand Reg Step 2"></div>
+      </div>
+      <div class="mobile-item">
+        <div class="frame-label">Step 3 <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/XHeV3.jpeg" alt="Brand Reg Step 3"></div>
+      </div>
+      <div class="mobile-item">
+        <div class="frame-label">Step 4 <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/wJw3z.jpeg" alt="Brand Reg Step 4"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ================================ 03 FEED ================================ -->
+<div class="screen-section" data-section="feed">
+  <div class="section-header">
+    <div class="section-tag">03 &mdash; Global Feed</div>
+    <div class="section-title">For You &amp; Following</div>
+    <div class="section-desc">The main content feed with AI-powered post cards, trend analyzers, sponsored content, and story ads.</div>
+  </div>
+  <div class="screen-pair">
+    <div>
+      <div class="frame-label">Feed — Desktop <span class="badge">1440px</span></div>
+      <div class="frame-desktop">
+        <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/feed</div></div>
+        <img src="./screenshots/pqNES.jpeg" alt="Feed Desktop">
+      </div>
+    </div>
+    <div>
+      <div class="frame-label">Feed — Mobile <span class="badge">375px</span></div>
+      <div class="frame-mobile"><img src="./screenshots/dXaVv.jpeg" alt="Feed Mobile"></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ================================ 04 EXPLORE ================================ -->
+<div class="screen-section" data-section="explore">
+  <div class="section-header">
+    <div class="section-tag">04 &mdash; Explore &amp; Search</div>
+    <div class="section-title">Discover Trends &amp; Categories</div>
+    <div class="section-desc">Browse trending content, categories, and discover new creators. Masonry grid on desktop, compact cards on mobile. Includes search results.</div>
+  </div>
+  <div class="screen-pair">
+    <div>
+      <div class="frame-label">Explore — Desktop <span class="badge">1440px</span></div>
+      <div class="frame-desktop">
+        <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/explore</div></div>
+        <img src="./screenshots/jnXvz.jpeg" alt="Explore Desktop">
+      </div>
+    </div>
+    <div>
+      <div class="frame-label">Explore — Mobile <span class="badge">375px</span></div>
+      <div class="frame-mobile"><img src="./screenshots/ZkX4H.jpeg" alt="Explore Mobile"></div>
+    </div>
+  </div>
+  <div class="mobile-row">
+    <div class="mobile-item">
+      <div class="frame-label">Search Results <span class="badge">375px</span></div>
+      <div class="frame-mobile"><img src="./screenshots/5FPrQ.jpeg" alt="Search Results Mobile"></div>
+    </div>
+    <div class="mobile-item">
+      <div class="frame-label">Followers / Following <span class="badge">375px</span></div>
+      <div class="frame-mobile"><img src="./screenshots/0YIZc.jpeg" alt="Followers Following Mobile"></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ================================ 05 PROFILE ================================ -->
+<div class="screen-section" data-section="profile">
+  <div class="section-header">
+    <div class="section-tag">05 &mdash; User Profile</div>
+    <div class="section-title">Creator Pages &amp; Dashboard</div>
+    <div class="section-desc">User profile with cover photo, stats, bio, content tabs. Plus user dashboard and edit profile screens.</div>
+  </div>
+  <div class="screen-pair">
+    <div>
+      <div class="frame-label">Profile — Desktop <span class="badge">1440px</span></div>
+      <div class="frame-desktop">
+        <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/@sarah.style</div></div>
+        <img src="./screenshots/uPP7A.jpeg" alt="Profile Desktop">
+      </div>
+    </div>
+    <div>
+      <div class="frame-label">Profile — Mobile <span class="badge">375px</span></div>
+      <div class="frame-mobile"><img src="./screenshots/WVeYk.jpeg" alt="Profile Mobile"></div>
+    </div>
+  </div>
+  <div class="screen-pair">
+    <div>
+      <div class="frame-label">User Dashboard — Desktop <span class="badge">1440px</span></div>
+      <div class="frame-desktop">
+        <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/dashboard</div></div>
+        <img src="./screenshots/M6o72.jpeg" alt="User Dashboard Desktop">
+      </div>
+    </div>
+    <div>
+      <div class="frame-label">User Dashboard — Mobile <span class="badge">375px</span></div>
+      <div class="frame-mobile"><img src="./screenshots/MBkQh.jpeg" alt="User Dashboard Mobile"></div>
+    </div>
+  </div>
+  <div class="mobile-row">
+    <div class="mobile-item">
+      <div class="frame-label">Edit Profile <span class="badge">375px</span></div>
+      <div class="frame-mobile"><img src="./screenshots/SXOJt.jpeg" alt="Edit Profile Mobile"></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ================================ 06 CONTENT CREATION ================================ -->
+<div class="screen-section" data-section="content">
+  <div class="section-header">
+    <div class="section-tag">06 &mdash; Content Creation</div>
+    <div class="section-title">Post Composer &amp; Tools</div>
+    <div class="section-desc">Multi-step post creation: camera, media upload, AI caption genie, brand tagging, publish, and success confirmation. Plus content guidelines and violation warnings.</div>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">Post Composer</div>
+    <div class="screen-pair">
+      <div>
+        <div class="frame-label">Composer — Desktop <span class="badge">1440px</span></div>
+        <div class="frame-desktop">
+          <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/create</div></div>
+          <img src="./screenshots/ShaXX.jpeg" alt="Composer Desktop">
+        </div>
+      </div>
+      <div>
+        <div class="frame-label">Camera <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/8zto9.jpeg" alt="Camera Mobile"></div>
+      </div>
+    </div>
+    <div class="mobile-row">
+      <div class="mobile-item">
+        <div class="frame-label">Step 1 — Media <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/Oam4Z.jpeg" alt="Composer Step 1"></div>
+      </div>
+      <div class="mobile-item">
+        <div class="frame-label">Step 2 — Caption <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/nCy6M.jpeg" alt="Composer Step 2"></div>
+      </div>
+      <div class="mobile-item">
+        <div class="frame-label">AI Caption Genie <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/PFSRY.jpeg" alt="AI Caption Genie"></div>
+      </div>
+      <div class="mobile-item">
+        <div class="frame-label">Step 3 — Publish <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/8D3lp.jpeg" alt="Composer Step 3"></div>
+      </div>
+      <div class="mobile-item">
+        <div class="frame-label">Post Success <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/iNFPi.jpeg" alt="Post Success"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">Content Guidelines &amp; Violations</div>
+    <div class="desktop-row">
+      <div>
+        <div class="frame-label">Guidelines Panel — Desktop <span class="badge">1440px</span></div>
+        <div class="frame-desktop">
+          <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/guidelines</div></div>
+          <img src="./screenshots/PFuj1.jpeg" alt="Guidelines Desktop">
+        </div>
+      </div>
+      <div>
+        <div class="frame-label">Violation Warning — Desktop <span class="badge">1440px</span></div>
+        <div class="frame-desktop">
+          <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/violation</div></div>
+          <img src="./screenshots/rtu2K.jpeg" alt="Violation Desktop">
+        </div>
+      </div>
+    </div>
+    <div class="mobile-row">
+      <div class="mobile-item">
+        <div class="frame-label">Guidelines Panel <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/Lh7Sb.jpeg" alt="Guidelines Mobile"></div>
+      </div>
+      <div class="mobile-item">
+        <div class="frame-label">Violation Warning <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/woV18.jpeg" alt="Violation Mobile"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ================================ 07 SOCIAL ================================ -->
+<div class="screen-section" data-section="social">
+  <div class="section-header">
+    <div class="section-tag">07 &mdash; Social Features</div>
+    <div class="section-title">Activity, Posts, Messages &amp; Chat</div>
+    <div class="section-desc">Notification feed, detailed post view with comments, messaging inbox, and individual chat conversations.</div>
+  </div>
+  <div class="screen-pair">
+    <div>
+      <div class="frame-label">Activity — Desktop <span class="badge">1440px</span></div>
+      <div class="frame-desktop">
+        <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/activity</div></div>
+        <img src="./screenshots/u7IuN.jpeg" alt="Activity Desktop">
+      </div>
+    </div>
+    <div>
+      <div class="frame-label">Activity — Mobile <span class="badge">375px</span></div>
+      <div class="frame-mobile"><img src="./screenshots/L709g.jpeg" alt="Activity Mobile"></div>
+    </div>
+  </div>
+  <div class="screen-pair">
+    <div>
+      <div class="frame-label">Post Detail — Desktop <span class="badge">1440px</span></div>
+      <div class="frame-desktop">
+        <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/post/1234</div></div>
+        <img src="./screenshots/jqMJO.jpeg" alt="Post Detail Desktop">
+      </div>
+    </div>
+    <div>
+      <div class="frame-label">Post Detail — Mobile <span class="badge">375px</span></div>
+      <div class="frame-mobile"><img src="./screenshots/Vn1sW.jpeg" alt="Post Detail Mobile"></div>
+    </div>
+  </div>
+  <div class="screen-pair">
+    <div>
+      <div class="frame-label">Messages — Desktop <span class="badge">1440px</span></div>
+      <div class="frame-desktop">
+        <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/messages</div></div>
+        <img src="./screenshots/TE3Uc.jpeg" alt="Messages Desktop">
+      </div>
+    </div>
+    <div>
+      <div class="frame-label">Messages — Mobile <span class="badge">375px</span></div>
+      <div class="frame-mobile"><img src="./screenshots/6mygM.jpeg" alt="Messages Mobile"></div>
+    </div>
+  </div>
+  <div class="mobile-row">
+    <div class="mobile-item">
+      <div class="frame-label">Chat Conversation <span class="badge">375px</span></div>
+      <div class="frame-mobile"><img src="./screenshots/HXJVC.jpeg" alt="Chat Conversation Mobile"></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ================================ 08 BRAND DASHBOARD ================================ -->
+<div class="screen-section" data-section="dashboard">
+  <div class="section-header">
+    <div class="section-tag">08 &mdash; Brand Dashboard</div>
+    <div class="section-title">Overview, Flaunts &amp; Analytics</div>
+    <div class="section-desc">Brand overview with organic flaunts, impressions, engagement rate, earned media value, AI insights, and detailed analytics.</div>
+  </div>
+  <div class="screen-pair">
+    <div>
+      <div class="frame-label">Dashboard Overview — Desktop <span class="badge">1440px</span></div>
+      <div class="frame-desktop">
+        <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/brand/dashboard</div></div>
+        <img src="./screenshots/EUa0P.jpeg" alt="Dashboard Desktop">
+      </div>
+    </div>
+    <div>
+      <div class="frame-label">Dashboard — Mobile <span class="badge">375px</span></div>
+      <div class="frame-mobile"><img src="./screenshots/7Ry1m.jpeg" alt="Dashboard Mobile"></div>
+    </div>
+  </div>
+  <div class="screen-pair">
+    <div>
+      <div class="frame-label">Brand Flaunts — Desktop <span class="badge">1440px</span></div>
+      <div class="frame-desktop">
+        <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/brand/flaunts</div></div>
+        <img src="./screenshots/bWElk.jpeg" alt="Flaunts Desktop">
+      </div>
+    </div>
+    <div>
+      <div class="frame-label">Flaunts — Mobile <span class="badge">375px</span></div>
+      <div class="frame-mobile"><img src="./screenshots/qyWoA.jpeg" alt="Flaunts Mobile"></div>
+    </div>
+  </div>
+  <div class="screen-pair">
+    <div>
+      <div class="frame-label">Analytics — Desktop <span class="badge">1440px</span></div>
+      <div class="frame-desktop">
+        <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/brand/analytics</div></div>
+        <img src="./screenshots/cNIEW.jpeg" alt="Analytics Desktop">
+      </div>
+    </div>
+    <div>
+      <div class="frame-label">Analytics — Mobile <span class="badge">375px</span></div>
+      <div class="frame-mobile"><img src="./screenshots/DDIz0.jpeg" alt="Analytics Mobile"></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ================================ 09 BOOSTS & ADS ================================ -->
+<div class="screen-section" data-section="brand-boosts">
+  <div class="section-header">
+    <div class="section-tag">09 &mdash; Boosts &amp; Sponsored Ads</div>
+    <div class="section-title">Boost Campaigns &amp; Ad Setup</div>
+    <div class="section-desc">Complete boost and sponsored ad flow: listing, ad setup, configuration, review, payment panels, and creator match.</div>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">Boosts Overview &amp; Creator Match</div>
+    <div class="screen-pair">
+      <div>
+        <div class="frame-label">Boosts — Desktop <span class="badge">1440px</span></div>
+        <div class="frame-desktop">
+          <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/brand/boosts</div></div>
+          <img src="./screenshots/ut42W.jpeg" alt="Boosts Desktop">
+        </div>
+      </div>
+      <div>
+        <div class="frame-label">Boosts — Mobile <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/hQfHO.jpeg" alt="Boosts Mobile"></div>
+      </div>
+    </div>
+    <div class="screen-pair">
+      <div>
+        <div class="frame-label">Creator Match — Desktop <span class="badge">1440px</span></div>
+        <div class="frame-desktop">
+          <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/brand/creator-match</div></div>
+          <img src="./screenshots/T8IB8.jpeg" alt="Creator Match Desktop">
+        </div>
+      </div>
+      <div>
+        <div class="frame-label">Creator Match — Mobile <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/QUFpl.jpeg" alt="Creator Match Mobile"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">Boost Ad Flow (Desktop)</div>
+    <div class="desktop-row">
+      <div>
+        <div class="frame-label">Boost Ad Setup <span class="badge">1440px</span></div>
+        <div class="frame-desktop">
+          <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/brand/boost/setup</div></div>
+          <img src="./screenshots/woSMr.jpeg" alt="Boost Ad Setup Desktop">
+        </div>
+      </div>
+      <div>
+        <div class="frame-label">Boost Configure <span class="badge">1440px</span></div>
+        <div class="frame-desktop">
+          <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/brand/boost/configure</div></div>
+          <img src="./screenshots/DvDjp.jpeg" alt="Boost Configure Desktop">
+        </div>
+      </div>
+      <div>
+        <div class="frame-label">Boost Review <span class="badge">1440px</span></div>
+        <div class="frame-desktop">
+          <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/brand/boost/review</div></div>
+          <img src="./screenshots/pDnms.jpeg" alt="Boost Review Desktop">
+        </div>
+      </div>
+      <div>
+        <div class="frame-label">Sponsored Ad Setup <span class="badge">1440px</span></div>
+        <div class="frame-desktop">
+          <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/brand/sponsored/setup</div></div>
+          <img src="./screenshots/vhfxu.jpeg" alt="Sponsored Ad Setup Desktop">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">Boost &amp; Ad Flow (Mobile)</div>
+    <div class="mobile-row">
+      <div class="mobile-item">
+        <div class="frame-label">Boost Ad Setup <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/7XDPI.jpeg" alt="Boost Ad Setup Mobile"></div>
+      </div>
+      <div class="mobile-item">
+        <div class="frame-label">Boost Configure <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/ZYmyS.jpeg" alt="Boost Configure Mobile"></div>
+      </div>
+      <div class="mobile-item">
+        <div class="frame-label">Boost Review <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/W6al3.jpeg" alt="Boost Review Mobile"></div>
+      </div>
+      <div class="mobile-item">
+        <div class="frame-label">Sponsored Ad <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/FR3PV.jpeg" alt="Sponsored Ad Mobile"></div>
+      </div>
+      <div class="mobile-item">
+        <div class="frame-label">Boost Config <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/BndRL.jpeg" alt="Boost Config Mobile"></div>
+      </div>
+      <div class="mobile-item">
+        <div class="frame-label">Payment — Boost <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/uwgHP.jpeg" alt="Payment Boost"></div>
+      </div>
+      <div class="mobile-item">
+        <div class="frame-label">Payment — Sponsored <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/9F0Ux.jpeg" alt="Payment Sponsored"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ================================ 10 BRAND SETTINGS ================================ -->
+<div class="screen-section" data-section="brand-settings">
+  <div class="section-header">
+    <div class="section-tag">10 &mdash; Brand Settings</div>
+    <div class="section-title">AI Advisor, Settings &amp; Billing</div>
+    <div class="section-desc">Brand-specific settings including AI advisor, TagSense configuration, notification preferences, billing, and user settings.</div>
+  </div>
+  <div class="screen-pair">
+    <div>
+      <div class="frame-label">AI Advisor — Desktop <span class="badge">1440px</span></div>
+      <div class="frame-desktop">
+        <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/brand/ai-advisor</div></div>
+        <img src="./screenshots/MtggU.jpeg" alt="AI Advisor Desktop">
+      </div>
+    </div>
+    <div>
+      <div class="frame-label">AI Advisor — Mobile <span class="badge">375px</span></div>
+      <div class="frame-mobile"><img src="./screenshots/Qe8Gd.jpeg" alt="AI Advisor Mobile"></div>
+    </div>
+  </div>
+  <div class="screen-pair">
+    <div>
+      <div class="frame-label">Brand Settings — Desktop <span class="badge">1440px</span></div>
+      <div class="frame-desktop">
+        <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/brand/settings</div></div>
+        <img src="./screenshots/bOd4z.jpeg" alt="Brand Settings Desktop">
+      </div>
+    </div>
+    <div>
+      <div class="frame-label">Brand Settings — Mobile <span class="badge">375px</span></div>
+      <div class="frame-mobile"><img src="./screenshots/wJ1pj.jpeg" alt="Brand Settings Mobile"></div>
+    </div>
+  </div>
+  <div class="desktop-row">
+    <div>
+      <div class="frame-label">TagSense Settings — Desktop <span class="badge">1440px</span></div>
+      <div class="frame-desktop">
+        <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/brand/settings/tagsense</div></div>
+        <img src="./screenshots/0bYB7.jpeg" alt="TagSense Desktop">
+      </div>
+    </div>
+    <div>
+      <div class="frame-label">Notifications — Desktop <span class="badge">1440px</span></div>
+      <div class="frame-desktop">
+        <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/brand/settings/notifications</div></div>
+        <img src="./screenshots/seUfL.jpeg" alt="Notifications Desktop">
+      </div>
+    </div>
+    <div>
+      <div class="frame-label">Billing — Desktop <span class="badge">1440px</span></div>
+      <div class="frame-desktop">
+        <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/brand/settings/billing</div></div>
+        <img src="./screenshots/Cn5A3.jpeg" alt="Billing Desktop">
+      </div>
+    </div>
+  </div>
+  <div class="mobile-row">
+    <div class="mobile-item">
+      <div class="frame-label">TagSense <span class="badge">375px</span></div>
+      <div class="frame-mobile"><img src="./screenshots/4r3Ol.jpeg" alt="TagSense Mobile"></div>
+    </div>
+    <div class="mobile-item">
+      <div class="frame-label">Notifications <span class="badge">375px</span></div>
+      <div class="frame-mobile"><img src="./screenshots/VZlyV.jpeg" alt="Notifications Mobile"></div>
+    </div>
+    <div class="mobile-item">
+      <div class="frame-label">Billing <span class="badge">375px</span></div>
+      <div class="frame-mobile"><img src="./screenshots/n5mam.jpeg" alt="Billing Mobile"></div>
+    </div>
+  </div>
+  <div class="screen-pair">
+    <div>
+      <div class="frame-label">User Settings — Desktop <span class="badge">1440px</span></div>
+      <div class="frame-desktop">
+        <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/settings</div></div>
+        <img src="./screenshots/oHUq3.jpeg" alt="Settings Desktop">
+      </div>
+    </div>
+    <div>
+      <div class="frame-label">Settings — Mobile <span class="badge">375px</span></div>
+      <div class="frame-mobile"><img src="./screenshots/9e6aU.jpeg" alt="Settings Mobile"></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ================================ 11 BRANDED SHOP ================================ -->
+<div class="screen-section" data-section="shop">
+  <div class="section-header">
+    <div class="section-tag">11 &mdash; Branded Shop</div>
+    <div class="section-title">Gucci Storefront &amp; Management</div>
+    <div class="section-desc">Fully branded storefront for luxury partners — hero banner, product grid, product detail pages, shop setup, and analytics.</div>
+  </div>
+  <div class="screen-pair">
+    <div>
+      <div class="frame-label">Storefront — Desktop <span class="badge">1440px</span></div>
+      <div class="frame-desktop">
+        <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/shop/gucci</div></div>
+        <img src="./screenshots/qQZtB.jpeg" alt="Storefront Desktop">
+      </div>
+    </div>
+    <div>
+      <div class="frame-label">Storefront — Mobile <span class="badge">375px</span></div>
+      <div class="frame-mobile"><img src="./screenshots/VFb4l.jpeg" alt="Storefront Mobile"></div>
+    </div>
+  </div>
+  <div class="screen-pair">
+    <div>
+      <div class="frame-label">Product Detail — Desktop <span class="badge">1440px</span></div>
+      <div class="frame-desktop">
+        <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/shop/gucci/gg-marmont</div></div>
+        <img src="./screenshots/qWucs.jpeg" alt="Product Desktop">
+      </div>
+    </div>
+    <div>
+      <div class="frame-label">Product — Mobile <span class="badge">375px</span></div>
+      <div class="frame-mobile"><img src="./screenshots/Svc2G.jpeg" alt="Product Mobile"></div>
+    </div>
+  </div>
+  <div class="desktop-row">
+    <div>
+      <div class="frame-label">Shop Setup — Desktop <span class="badge">1440px</span></div>
+      <div class="frame-desktop">
+        <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/brand/shop/setup</div></div>
+        <img src="./screenshots/vWJxF.jpeg" alt="Shop Setup Desktop">
+      </div>
+    </div>
+    <div>
+      <div class="frame-label">Shop Analytics — Desktop <span class="badge">1440px</span></div>
+      <div class="frame-desktop">
+        <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/brand/shop/analytics</div></div>
+        <img src="./screenshots/uR9Hs.jpeg" alt="Shop Analytics Desktop">
+      </div>
+    </div>
+  </div>
+  <div class="mobile-row">
+    <div class="mobile-item">
+      <div class="frame-label">Shop Setup <span class="badge">375px</span></div>
+      <div class="frame-mobile"><img src="./screenshots/lk7Gi.jpeg" alt="Shop Setup Mobile"></div>
+    </div>
+    <div class="mobile-item">
+      <div class="frame-label">Shop Analytics <span class="badge">375px</span></div>
+      <div class="frame-mobile"><img src="./screenshots/4XmMW.jpeg" alt="Shop Analytics Mobile"></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ================================ 12 BOUTIQUE ================================ -->
+<div class="screen-section" data-section="boutique">
+  <div class="section-header">
+    <div class="section-tag">12 &mdash; Flaunt Boutique</div>
+    <div class="section-title">Peer-to-Peer Marketplace</div>
+    <div class="section-desc">User-to-user selling with curated listings, AI authentication, integrated checkout, orders, wishlist, and seller tools.</div>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">Browse &amp; Buy</div>
+    <div class="screen-pair">
+      <div>
+        <div class="frame-label">Boutique Home — Desktop <span class="badge">1440px</span></div>
+        <div class="frame-desktop">
+          <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/boutique</div></div>
+          <img src="./screenshots/R9YPV.jpeg" alt="Boutique Desktop">
+        </div>
+      </div>
+      <div>
+        <div class="frame-label">Boutique — Mobile <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/enVGJ.jpeg" alt="Boutique Mobile"></div>
+      </div>
+    </div>
+    <div class="screen-pair">
+      <div>
+        <div class="frame-label">Product Detail — Desktop <span class="badge">1440px</span></div>
+        <div class="frame-desktop">
+          <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/boutique/product/123</div></div>
+          <img src="./screenshots/JyXIg.jpeg" alt="Boutique Product Desktop">
+        </div>
+      </div>
+      <div>
+        <div class="frame-label">Product — Mobile <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/31iPt.jpeg" alt="Boutique Product Mobile"></div>
+      </div>
+    </div>
+    <div class="screen-pair">
+      <div>
+        <div class="frame-label">Checkout — Desktop <span class="badge">1440px</span></div>
+        <div class="frame-desktop">
+          <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/boutique/checkout</div></div>
+          <img src="./screenshots/IhAw3.jpeg" alt="Checkout Desktop">
+        </div>
+      </div>
+      <div>
+        <div class="frame-label">Checkout — Mobile <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/ojr56.jpeg" alt="Checkout Mobile"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">Sell &amp; Manage</div>
+    <div class="screen-pair">
+      <div>
+        <div class="frame-label">Sell Item — Desktop <span class="badge">1440px</span></div>
+        <div class="frame-desktop">
+          <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/boutique/sell</div></div>
+          <img src="./screenshots/DmJQc.jpeg" alt="Sell Desktop">
+        </div>
+      </div>
+      <div>
+        <div class="frame-label">Sell — Mobile <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/W2oCv.jpeg" alt="Sell Mobile"></div>
+      </div>
+    </div>
+    <div class="desktop-row">
+      <div>
+        <div class="frame-label">My Listings — Desktop <span class="badge">1440px</span></div>
+        <div class="frame-desktop">
+          <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/boutique/listings</div></div>
+          <img src="./screenshots/79dZa.jpeg" alt="My Listings Desktop">
+        </div>
+      </div>
+      <div>
+        <div class="frame-label">Wishlist — Desktop <span class="badge">1440px</span></div>
+        <div class="frame-desktop">
+          <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/boutique/wishlist</div></div>
+          <img src="./screenshots/iF8JU.jpeg" alt="Wishlist Desktop">
+        </div>
+      </div>
+    </div>
+    <div class="mobile-row">
+      <div class="mobile-item">
+        <div class="frame-label">My Listings <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/b3jfX.jpeg" alt="My Listings Mobile"></div>
+      </div>
+      <div class="mobile-item">
+        <div class="frame-label">Wishlist <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/0q9jA.jpeg" alt="Wishlist Mobile"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">Orders</div>
+    <div class="screen-pair">
+      <div>
+        <div class="frame-label">My Orders — Desktop <span class="badge">1440px</span></div>
+        <div class="frame-desktop">
+          <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/boutique/orders</div></div>
+          <img src="./screenshots/R0q1J.jpeg" alt="Orders Desktop">
+        </div>
+      </div>
+      <div>
+        <div class="frame-label">My Orders — Mobile <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/FcnLu.jpeg" alt="Orders Mobile"></div>
+      </div>
+    </div>
+    <div class="screen-pair">
+      <div>
+        <div class="frame-label">Order Detail — Desktop <span class="badge">1440px</span></div>
+        <div class="frame-desktop">
+          <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/boutique/order/456</div></div>
+          <img src="./screenshots/YCWTt.jpeg" alt="Order Detail Desktop">
+        </div>
+      </div>
+      <div>
+        <div class="frame-label">Order Detail — Mobile <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/dA4SR.jpeg" alt="Order Detail Mobile"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ================================ 13 ADMIN ================================ -->
+<div class="screen-section" data-section="admin">
+  <div class="section-header">
+    <div class="section-tag">13 &mdash; Admin Panel</div>
+    <div class="section-title">Moderation &amp; Platform Management</div>
+    <div class="section-desc">Platform admin dashboard with user management, brand oversight, content moderation, ad network controls, boutique management, and system settings.</div>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">Dashboard &amp; Moderation</div>
+    <div class="screen-pair">
+      <div>
+        <div class="frame-label">Admin Dashboard — Desktop <span class="badge">1440px</span></div>
+        <div class="frame-desktop">
+          <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/admin</div></div>
+          <img src="./screenshots/owuza.jpeg" alt="Admin Desktop">
+        </div>
+      </div>
+      <div>
+        <div class="frame-label">Admin — Mobile <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/0F6ni.jpeg" alt="Admin Mobile"></div>
+      </div>
+    </div>
+    <div class="screen-pair">
+      <div>
+        <div class="frame-label">Moderation Panel — Desktop <span class="badge">1440px</span></div>
+        <div class="frame-desktop">
+          <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/admin/moderation</div></div>
+          <img src="./screenshots/3hRBZ.jpeg" alt="Moderation Desktop">
+        </div>
+      </div>
+      <div>
+        <div class="frame-label">Moderation Review — Mobile <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/jHtY9.jpeg" alt="Moderation Mobile"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">Users, Brands &amp; Reports</div>
+    <div class="screen-pair">
+      <div>
+        <div class="frame-label">Users — Desktop <span class="badge">1440px</span></div>
+        <div class="frame-desktop">
+          <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/admin/users</div></div>
+          <img src="./screenshots/RAvvo.jpeg" alt="Users Desktop">
+        </div>
+      </div>
+      <div>
+        <div class="frame-label">Users — Mobile <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/FEAzB.jpeg" alt="Users Mobile"></div>
+      </div>
+    </div>
+    <div class="screen-pair">
+      <div>
+        <div class="frame-label">Brands — Desktop <span class="badge">1440px</span></div>
+        <div class="frame-desktop">
+          <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/admin/brands</div></div>
+          <img src="./screenshots/Ws5T8.jpeg" alt="Brands Desktop">
+        </div>
+      </div>
+      <div>
+        <div class="frame-label">Brands — Mobile <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/CfRfV.jpeg" alt="Brands Mobile"></div>
+      </div>
+    </div>
+    <div class="screen-pair">
+      <div>
+        <div class="frame-label">Reports — Desktop <span class="badge">1440px</span></div>
+        <div class="frame-desktop">
+          <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/admin/reports</div></div>
+          <img src="./screenshots/gmb1F.jpeg" alt="Reports Desktop">
+        </div>
+      </div>
+      <div>
+        <div class="frame-label">Reports — Mobile <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/yIrBh.jpeg" alt="Reports Mobile"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">Ad Network, Brand Shops &amp; Settings</div>
+    <div class="screen-pair">
+      <div>
+        <div class="frame-label">Ad Network — Desktop <span class="badge">1440px</span></div>
+        <div class="frame-desktop">
+          <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/admin/ads</div></div>
+          <img src="./screenshots/aeRNp.jpeg" alt="Ad Network Desktop">
+        </div>
+      </div>
+      <div>
+        <div class="frame-label">Brand Shops — Mobile <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/mYo8u.jpeg" alt="Brand Shops Mobile"></div>
+      </div>
+    </div>
+    <div class="screen-pair">
+      <div>
+        <div class="frame-label">Brand Shops — Desktop <span class="badge">1440px</span></div>
+        <div class="frame-desktop">
+          <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/admin/shops</div></div>
+          <img src="./screenshots/5ivEN.jpeg" alt="Brand Shops Desktop">
+        </div>
+      </div>
+      <div>
+        <div class="frame-label">Admin Settings — Mobile <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/SHZBK.jpeg" alt="Settings Mobile"></div>
+      </div>
+    </div>
+    <div class="screen-pair">
+      <div>
+        <div class="frame-label">Admin Settings — Desktop <span class="badge">1440px</span></div>
+        <div class="frame-desktop">
+          <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/admin/settings</div></div>
+          <img src="./screenshots/5a9Bj.jpeg" alt="Admin Settings Desktop">
+        </div>
+      </div>
+      <div>
+        <div class="frame-label">Admin Settings — Mobile <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/SHZBK.jpeg" alt="Admin Settings Mobile"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">Boutique Management</div>
+    <div class="screen-pair">
+      <div>
+        <div class="frame-label">Admin Boutique — Desktop <span class="badge">1440px</span></div>
+        <div class="frame-desktop">
+          <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/admin/boutique</div></div>
+          <img src="./screenshots/YJcs1.jpeg" alt="Admin Boutique Desktop">
+        </div>
+      </div>
+      <div>
+        <div class="frame-label">Boutique — Mobile <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/VCzAB.jpeg" alt="Admin Boutique Mobile"></div>
+      </div>
+    </div>
+    <div class="screen-pair">
+      <div>
+        <div class="frame-label">Boutique Orders — Desktop <span class="badge">1440px</span></div>
+        <div class="frame-desktop">
+          <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">flaunt.com/admin/boutique/orders</div></div>
+          <img src="./screenshots/iNCIy.jpeg" alt="Admin Boutique Orders Desktop">
+        </div>
+      </div>
+      <div>
+        <div class="frame-label">Boutique Orders — Mobile <span class="badge">375px</span></div>
+        <div class="frame-mobile"><img src="./screenshots/H8kVS.jpeg" alt="Admin Boutique Orders Mobile"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ================================ 14 GUIDELINES ================================ -->
+<div class="screen-section" data-section="guidelines">
+  <div class="section-header">
+    <div class="section-tag">14 &mdash; Reference</div>
+    <div class="section-title">Brand &amp; Ad Guidelines</div>
+    <div class="section-desc">Internal design reference pages — brand style guidelines and ad material specifications for the platform.</div>
+  </div>
+  <div class="desktop-row">
+    <div>
+      <div class="frame-label">Brand &amp; Style Guidelines <span class="badge">1440px</span></div>
+      <div class="frame-desktop">
+        <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">Brand &amp; Style Guidelines</div></div>
+        <img src="./screenshots/xdUva.jpeg" alt="Brand Style Guidelines">
+      </div>
+    </div>
+    <div>
+      <div class="frame-label">Ad Material Guidelines <span class="badge">1440px</span></div>
+      <div class="frame-desktop">
+        <div class="toolbar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="url-bar">Ad Material Guidelines</div></div>
+        <img src="./screenshots/PRlYl.jpeg" alt="Ad Material Guidelines">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================ FOOTER ================================ -->
+<footer class="footer">
+  <img src="./images/flaunt-icon.png" alt="">
+  <div>Flaunt Complete Screen Preview &mdash; 125 screens across 14 sections</div>
+  <div style="margin-top:4px;font-size:11px">Generated April 2026 &middot; Desktop (1440px) + Mobile (375px)</div>
+</footer>
+
+<script>
+function showSection(section) {
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+
+  document.querySelectorAll('.screen-section').forEach(s => {
+    if (section === 'all') {
+      s.style.display = '';
+    } else {
+      s.style.display = s.dataset.section === section ? '' : 'none';
+    }
+  });
+  document.querySelectorAll('.section-divider').forEach(d => {
+    d.style.display = section === 'all' ? '' : 'none';
+  });
+}
+</script>
+
+</body>
+</html>
