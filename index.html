@@ -4,90 +4,150 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Flaunt Design System — Developer Handover Preview</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 /* ============================================
    FLAUNT DESIGN SYSTEM — CSS CUSTOM PROPERTIES
+   After-Dark Editorial · dark default · no glass
    ============================================ */
 :root {
-  /* Brand */
-  --primary-purple: #A94CE8;
-  --primary-pink: #E364C4;
-  --gold: #B8860B;
-  --gold-highlight: #FFD700;
-  --ai-glow: #A94CE833;
+  /* Brand — locked */
+  --brand-purple:        #A94CE8;
+  --brand-pink:          #E364C4;
+  --brand-gold:          #B8860B;
+  --brand-gold-light:    #FFD700;
 
-  /* Backgrounds */
-  --dark-hero-bg: #1A0A2E;
-  --glassmorphism-bg: #FFFFFFB8;
-  --glassmorphism-border: #EAEAEA99;
-  --light-gray-bg: #F5F5F5;
-  --jet-black: #0C0C0C;
-  --pure-white: #FFFFFF;
+  /* Surfaces — dark default */
+  --bg-base:             #0A0A0F;
+  --bg-surface:          #15151D;
+  --bg-raised:           #1F1F2A;
+  --bg-overlay:          #2A2A38;
 
-  /* Neutrals */
-  --dark-gray: #222222;
-  --mid-gray: #555555;
-  --silver: #EAEAEA;
+  /* Text */
+  --fg-primary:          #F4F4F8;
+  --fg-secondary:        #A0A0B0;
+  --fg-muted:            #6B6B7A;
+  --fg-on-brand:         #FFFFFF;
+  --fg-on-gold:          #0A0A0F;
 
-  /* Semantic */
-  --success-green: #1A7A4A;
-  --warning-amber: #C07A00;
-  --error-red: #C0392B;
+  /* Borders */
+  --border-subtle:       rgba(255,255,255,0.06);
+  --border-default:      rgba(255,255,255,0.10);
+  --border-strong:       rgba(255,255,255,0.20);
+
+  /* Status */
+  --status-success:      #22C55E;
+  --status-warning:      #F59E0B;
+  --status-error:        #EF4444;
+  --status-info:         #A94CE8;
 
   /* Gradients */
-  --brand-gradient: linear-gradient(225deg, #A94CE8, #E364C4);
-  --hero-gradient: linear-gradient(180deg, #1A0A2E, #0C0C0C);
-  --gold-gradient: linear-gradient(225deg, #B8860B, #FFD700 50%, #B8860B);
-  --trend-gradient: linear-gradient(90deg, #A94CE8, #E364C4, #F59E0B);
+  --brand-gradient:      linear-gradient(135deg, #A94CE8, #E364C4);
+  --brand-gradient-trend:linear-gradient(90deg,  #A94CE8, #E364C4, #FFD700);
+  --gold-gradient:       linear-gradient(135deg, #B8860B, #FFD700 50%, #B8860B);
+
+  /* Type */
+  --font-display:        'Instrument Serif', ui-serif, Georgia, serif;
+  --font-body:           'Geist', ui-sans-serif, system-ui, sans-serif;
+  --font-mono:           'Geist Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Shadows — replace glass */
+  --shadow-sm:           0 2px 6px rgba(0,0,0,0.35);
+  --shadow-md:           0 4px 12px rgba(0,0,0,0.40);
+  --shadow-lg:           0 8px 24px rgba(0,0,0,0.45);
+  --shadow-xl:           0 16px 48px rgba(0,0,0,0.55);
+  --shadow-glow-purple:  0 0 24px rgba(169,76,232,0.40);
+  --shadow-glow-pink:    0 0 24px rgba(227,100,196,0.40);
+
+  /* Motion */
+  --duration-fast:       150ms;
+  --duration-base:       250ms;
+  --ease-out:            cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  font-family: 'Inter', sans-serif;
-  background: #F8F8FA;
-  color: var(--dark-gray);
+  font-family: var(--font-body);
+  background: var(--bg-base);
+  color: var(--fg-primary);
   line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.font-heading { font-family: 'Poppins', sans-serif; }
-.font-body { font-family: 'Inter', sans-serif; }
+.font-display { font-family: var(--font-display); }
+.font-body    { font-family: var(--font-body); }
+.font-mono    { font-family: var(--font-mono); }
+.editorial-italic { font-family: var(--font-display); font-style: italic; font-weight: 400; }
+
+:focus-visible {
+  outline: 2px solid var(--brand-purple);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
 
 /* ============================================
    LAYOUT
    ============================================ */
 .page-header {
-  background: var(--hero-gradient);
-  color: white;
-  padding: 60px 40px 48px;
+  background: var(--bg-base);
+  color: var(--fg-primary);
+  padding: 80px 40px 56px;
   text-align: center;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border-subtle);
 }
-.page-header img { height: 48px; margin-bottom: 16px; }
-.page-header h1 { font-family: 'Poppins', sans-serif; font-size: 32px; font-weight: 700; margin-bottom: 8px; }
-.page-header p { font-size: 16px; font-weight: 300; color: rgba(255,255,255,0.7); max-width: 600px; margin: 0 auto; }
+.page-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 60% at 50% 0%, rgba(169,76,232,0.18) 0%, transparent 60%);
+  pointer-events: none;
+}
+.page-header > * { position: relative; }
+.page-header img { height: 44px; margin-bottom: 20px; }
+.page-header h1 {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 400;
+  line-height: 1.05;
+  margin-bottom: 12px;
+}
+.page-header p {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--fg-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+}
 
 .section {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 48px 24px;
+  padding: 56px 24px;
 }
 .section-title {
-  font-family: 'Poppins', sans-serif;
-  font-size: 24px;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 32px;
+  font-weight: 400;
   margin-bottom: 8px;
-  color: var(--dark-gray);
+  color: var(--fg-primary);
 }
 .section-sub {
+  font-family: var(--font-body);
   font-size: 14px;
-  color: var(--mid-gray);
+  color: var(--fg-secondary);
   margin-bottom: 32px;
-  font-weight: 300;
+  font-weight: 400;
 }
 .divider {
   height: 1px;
-  background: var(--silver);
+  background: var(--border-subtle);
   margin: 0 24px;
   max-width: 1200px;
   margin-left: auto;
@@ -105,7 +165,7 @@ body {
 .color-card {
   border-radius: 12px;
   overflow: hidden;
-  background: white;
+  background: var(--bg-surface);
   box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 }
 .color-swatch {
@@ -116,15 +176,15 @@ body {
   padding: 10px 12px;
 }
 .color-name {
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-body);
   font-size: 12px;
   font-weight: 600;
-  color: var(--dark-gray);
+  color: var(--fg-primary);
 }
 .color-hex {
   font-size: 11px;
-  color: var(--mid-gray);
-  font-family: monospace;
+  color: var(--fg-secondary);
+  font-family: var(--font-mono);
 }
 
 /* ============================================
@@ -135,16 +195,16 @@ body {
   align-items: baseline;
   gap: 32px;
   padding: 12px 0;
-  border-bottom: 1px solid var(--silver);
+  border-bottom: 1px solid var(--border-default);
 }
 .type-label {
   width: 200px;
   flex-shrink: 0;
   font-size: 12px;
-  color: var(--mid-gray);
-  font-family: monospace;
+  color: var(--fg-secondary);
+  font-family: var(--font-mono);
 }
-.type-sample { flex: 1; color: var(--dark-gray); }
+.type-sample { flex: 1; color: var(--fg-primary); }
 
 /* ============================================
    3. SPACING
@@ -163,8 +223,8 @@ body {
 }
 .spacing-label {
   font-size: 12px;
-  color: var(--mid-gray);
-  font-family: monospace;
+  color: var(--fg-secondary);
+  font-family: var(--font-mono);
   width: 120px;
   flex-shrink: 0;
 }
@@ -173,21 +233,21 @@ body {
    4. COMPONENT PREVIEWS
    ============================================ */
 .component-section {
-  background: white;
+  background: var(--bg-surface);
   border-radius: 16px;
   padding: 32px;
   margin-bottom: 24px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.05);
 }
 .component-title {
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-body);
   font-size: 18px;
   font-weight: 600;
   margin-bottom: 4px;
 }
 .component-desc {
   font-size: 13px;
-  color: var(--mid-gray);
+  color: var(--fg-secondary);
   margin-bottom: 24px;
   font-weight: 300;
 }
@@ -208,12 +268,12 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: var(--mid-gray);
+  color: var(--fg-secondary);
 }
 
 /* ---- Button Primary ---- */
 .btn-primary {
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-body);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -231,7 +291,7 @@ body {
 }
 .btn-primary:hover { filter: brightness(1.1); box-shadow: 0 4px 16px rgba(169,76,232,0.25); }
 .btn-primary:active { filter: brightness(0.9); transform: scale(0.98); }
-.btn-primary.disabled { opacity: 0.6; cursor: not-allowed; background: #DDD; color: #999; }
+.btn-primary.disabled { opacity: 0.5; cursor: not-allowed; background: var(--bg-overlay); color: var(--fg-muted); }
 .btn-primary.loading { opacity: 0.8; }
 .btn-primary .spinner {
   width: 18px; height: 18px;
@@ -243,7 +303,7 @@ body {
 
 /* ---- Button Ghost ---- */
 .btn-ghost {
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-body);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -254,38 +314,38 @@ body {
   font-weight: 500;
   color: white;
   background: transparent;
-  border: 1.5px solid var(--mid-gray);
+  border: 1.5px solid var(--fg-secondary);
   cursor: pointer;
   transition: all 0.2s ease-out;
 }
-.btn-ghost:hover { border-color: var(--primary-purple); color: var(--primary-purple); background: rgba(169,76,232,0.06); }
+.btn-ghost:hover { border-color: var(--brand-purple); color: var(--brand-purple); background: rgba(169,76,232,0.06); }
 .btn-ghost:active { border-color: #9A3DD9; color: #9A3DD9; transform: scale(0.98); }
-.btn-ghost.disabled { opacity: 0.4; cursor: not-allowed; border-color: #CCC; color: #CCC; }
-.btn-ghost.light { color: var(--dark-gray); border-color: var(--silver); }
+.btn-ghost.disabled { opacity: 0.4; cursor: not-allowed; border-color: var(--border-subtle); color: var(--fg-muted); }
+.btn-ghost.light { color: var(--fg-primary); border-color: var(--border-default); }
 
 /* ---- Input ---- */
 .input-group { display: flex; flex-direction: column; gap: 6px; width: 280px; }
-.input-label { font-size: 13px; color: var(--mid-gray); }
-.input-label.focus { color: var(--primary-purple); }
-.input-label.error { color: var(--error-red); }
+.input-label { font-size: 13px; color: var(--fg-secondary); }
+.input-label.focus { color: var(--brand-purple); }
+.input-label.error { color: var(--status-error); }
 .input-field {
   height: 48px; padding: 0 16px; border-radius: 10px;
-  font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 300;
-  color: var(--dark-gray); background: white;
-  border: 1px solid var(--silver); outline: none;
+  font-family: var(--font-body); font-size: 15px; font-weight: 300;
+  color: var(--fg-primary); background: var(--bg-surface);
+  border: 1px solid var(--border-default); outline: none;
   transition: all 0.15s;
 }
-.input-field::placeholder { color: #999; }
-.input-field.focus { border: 2px solid var(--primary-purple); }
-.input-field.error { border: 2px solid var(--error-red); background: #FFF5F5; }
-.input-field.disabled { background: var(--light-gray-bg); cursor: not-allowed; opacity: 0.5; }
-.input-error-msg { font-size: 12px; color: var(--error-red); font-weight: 300; }
+.input-field::placeholder { color: var(--fg-muted); }
+.input-field.focus { border: 2px solid var(--brand-purple); }
+.input-field.error { border: 2px solid var(--status-error); background: rgba(239,68,68,0.06); }
+.input-field.disabled { background: var(--bg-overlay); cursor: not-allowed; opacity: 0.5; }
+.input-error-msg { font-size: 12px; color: var(--status-error); font-weight: 300; }
 
 /* ---- Avatar ---- */
 .avatar {
   display: inline-flex; align-items: center; justify-content: center;
   border-radius: 50%; background: var(--brand-gradient);
-  font-family: 'Poppins', sans-serif; font-weight: 600; color: white;
+  font-family: var(--font-body); font-weight: 600; color: white;
   position: relative; overflow: visible;
 }
 .avatar.sm { width: 32px; height: 32px; font-size: 12px; }
@@ -295,41 +355,41 @@ body {
 .avatar .status {
   position: absolute; bottom: 0; right: 0;
   width: 14px; height: 14px; border-radius: 50%;
-  background: var(--success-green); border: 2px solid white;
+  background: var(--status-success); border: 2px solid white;
 }
 
 /* ---- Pill / Tag ---- */
 .pill {
   display: inline-flex; align-items: center; justify-content: center;
-  font-family: 'Inter', sans-serif; font-size: 13px;
+  font-family: var(--font-body); font-size: 13px;
   height: 32px; padding: 0 14px; border-radius: 16px;
   cursor: pointer; transition: all 0.15s; border: none;
 }
-.pill.default { background: var(--light-gray-bg); color: var(--dark-gray); }
-.pill.default:hover { background: #EBEBEB; }
-.pill.selected { background: var(--primary-purple); color: white; font-weight: 500; }
+.pill.default { background: var(--bg-overlay); color: var(--fg-primary); }
+.pill.default:hover { background: var(--bg-raised); }
+.pill.selected { background: var(--brand-purple); color: white; font-weight: 500; }
 .pill.brand {
-  background: #F8F5FC; color: var(--primary-purple); font-weight: 500;
-  border: 1px solid var(--ai-glow); font-size: 11px; height: 22px; padding: 0 8px; border-radius: 10px;
+  background: rgba(169,76,232,0.10); color: var(--brand-purple); font-weight: 500;
+  border: 1px solid rgba(169,76,232,0.30); font-size: 11px; height: 22px; padding: 0 8px; border-radius: 10px;
 }
-.pill.disabled { background: var(--light-gray-bg); color: #BBB; opacity: 0.4; cursor: not-allowed; }
+.pill.disabled { background: var(--bg-overlay); color: var(--fg-muted); opacity: 0.4; cursor: not-allowed; }
 
 /* ---- Bottom Nav ---- */
 .bottom-nav {
   display: flex; align-items: center; justify-content: space-around;
   width: 375px; height: 56px; padding: 0 16px;
-  background: var(--glassmorphism-bg); backdrop-filter: blur(12px);
-  border-top: 0.5px solid var(--glassmorphism-border);
+  background: var(--bg-surface); box-shadow: var(--shadow-lg);
+  border-top: 1px solid var(--border-subtle);
   border-radius: 0 0 16px 16px;
 }
 .nav-item {
   display: flex; flex-direction: column; align-items: center; gap: 2px;
   width: 56px; background: none; border: none; cursor: pointer;
 }
-.nav-item svg { width: 22px; height: 22px; stroke: #999; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.nav-item.active svg { stroke: var(--primary-purple); }
-.nav-item span { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500; color: #999; }
-.nav-item.active span { color: var(--primary-purple); }
+.nav-item svg { width: 22px; height: 22px; stroke: var(--fg-muted); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.nav-item.active svg { stroke: var(--brand-purple); }
+.nav-item span { font-family: var(--font-body); font-size: 10px; font-weight: 500; color: var(--fg-muted); }
+.nav-item.active span { color: var(--brand-purple); }
 .nav-create {
   display: flex; align-items: center; justify-content: center;
   width: 52px; height: 52px; border-radius: 50%; border: none; cursor: pointer;
@@ -347,31 +407,31 @@ body {
   height: 56px; padding: 0 16px;
 }
 .post-user-info { display: flex; flex-direction: column; gap: 2px; flex: 1; }
-.post-user-name { font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 600; color: var(--dark-gray); }
-.post-user-handle { font-size: 12px; font-weight: 300; color: #999; }
+.post-user-name { font-family: var(--font-body); font-size: 14px; font-weight: 600; color: var(--fg-primary); }
+.post-user-handle { font-size: 12px; font-weight: 300; color: var(--fg-muted); }
 .post-image { width: 100%; height: 200px; object-fit: cover; display: block; }
 .post-badges { display: flex; gap: 8px; padding: 8px 16px; }
 .post-badge {
   display: inline-flex; align-items: center; gap: 4px;
   height: 24px; padding: 0 8px; border-radius: 12px;
-  border: 1px solid var(--primary-purple);
-  font-size: 11px; font-weight: 500; color: var(--primary-purple);
+  border: 1px solid var(--brand-purple);
+  font-size: 11px; font-weight: 500; color: var(--brand-purple);
 }
-.post-caption { padding: 8px 16px; font-size: 14px; color: var(--dark-gray); }
-.post-tags { padding: 0 16px 8px; font-size: 13px; color: var(--primary-purple); }
+.post-caption { padding: 8px 16px; font-size: 14px; color: var(--fg-primary); }
+.post-tags { padding: 0 16px 8px; font-size: 13px; color: var(--brand-purple); }
 .post-actions {
   display: flex; align-items: center; gap: 16px;
   height: 44px; padding: 0 16px;
 }
-.post-actions svg { width: 22px; height: 22px; stroke: var(--dark-gray); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; cursor: pointer; }
+.post-actions svg { width: 22px; height: 22px; stroke: var(--fg-primary); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; cursor: pointer; }
 .post-actions .spacer { flex: 1; }
-.post-action-count { font-size: 13px; color: var(--dark-gray); margin-left: -12px; }
+.post-action-count { font-size: 13px; color: var(--fg-primary); margin-left: -12px; }
 
 /* ---- Sponsored Badge ---- */
 .sponsored-badge {
   display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 12px;
   background: rgba(184,134,11,0.125);
-  font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; color: var(--gold);
+  font-family: var(--font-body); font-size: 11px; font-weight: 500; color: var(--brand-gold-light);
 }
 
 /* ---- Boost Banner ---- */
@@ -379,9 +439,9 @@ body {
   display: flex; align-items: center; gap: 6px;
   padding: 0 16px 8px;
 }
-.boost-row svg { width: 14px; height: 14px; stroke: var(--primary-purple); fill: none; stroke-width: 2; }
-.boost-label { font-size: 12px; font-weight: 500; color: var(--primary-purple); }
-.boost-reach { font-size: 12px; color: #999; }
+.boost-row svg { width: 14px; height: 14px; stroke: var(--brand-purple); fill: none; stroke-width: 2; }
+.boost-label { font-size: 12px; font-weight: 500; color: var(--brand-purple); }
+.boost-reach { font-size: 12px; color: var(--fg-muted); }
 
 /* ---- Trend Card ---- */
 .trend-card {
@@ -393,18 +453,18 @@ body {
   display: flex; align-items: center; gap: 8px;
   padding: 10px 16px 0;
 }
-.trend-header svg { width: 16px; height: 16px; stroke: var(--primary-pink); fill: none; stroke-width: 2; }
-.trend-header .label { font-family: 'Poppins', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; color: var(--primary-pink); }
-.trend-header .dot { width: 3px; height: 3px; border-radius: 50%; background: #CCC; }
-.trend-header .category { font-size: 11px; color: #999; }
+.trend-header svg { width: 16px; height: 16px; stroke: var(--brand-pink); fill: none; stroke-width: 2; }
+.trend-header .label { font-family: var(--font-body); font-size: 11px; font-weight: 700; letter-spacing: 0.5px; color: var(--brand-pink); }
+.trend-header .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--fg-muted); }
+.trend-header .category { font-size: 11px; color: var(--fg-muted); }
 .trend-image { width: 100%; height: 180px; object-fit: cover; display: block; }
 .trend-content { padding: 12px 16px 16px; display: flex; flex-direction: column; gap: 10px; }
 .trend-type {
   display: inline-flex; align-self: flex-start; padding: 4px 10px; border-radius: 12px;
-  background: #FEF3C7; font-size: 11px; font-weight: 500; color: #92400E;
+  background: rgba(255,215,0,0.12); font-size: 11px; font-weight: 500; color: var(--brand-gold-light);
 }
-.trend-title { font-family: 'Poppins', sans-serif; font-size: 15px; font-weight: 600; line-height: 1.3; }
-.trend-desc { font-size: 13px; font-weight: 300; line-height: 1.4; color: #777; }
+.trend-title { font-family: var(--font-body); font-size: 15px; font-weight: 600; line-height: 1.3; }
+.trend-desc { font-size: 13px; font-weight: 300; line-height: 1.4; color: var(--fg-secondary); }
 .trend-ctas { display: flex; gap: 12px; }
 .trend-ctas .btn-primary { height: 36px; padding: 0 20px; font-size: 13px; flex: 1; }
 .trend-ctas .btn-ghost { height: 36px; padding: 0 20px; font-size: 13px; }
@@ -422,7 +482,7 @@ body {
   position: absolute; top: 16px; left: 16px;
   display: flex; align-items: center; justify-content: center;
   width: 36px; height: 20px; border-radius: 10px;
-  background: var(--gold); font-size: 11px; font-weight: 500; color: white;
+  background: var(--brand-gold-light); font-size: 11px; font-weight: 500; color: white;
 }
 .story-close {
   position: absolute; top: 16px; right: 16px;
@@ -437,7 +497,7 @@ body {
   padding: 24px; gap: 8px;
   background: linear-gradient(to top, rgba(12,12,12,0.87), transparent 60%);
 }
-.story-headline { font-family: 'Poppins', sans-serif; font-size: 28px; font-weight: 700; color: white; max-width: 260px; }
+.story-headline { font-family: var(--font-body); font-size: 28px; font-weight: 700; color: white; max-width: 260px; }
 .story-subcopy { font-size: 14px; font-weight: 300; color: rgba(255,255,255,0.8); max-width: 260px; }
 .story-cta { align-self: flex-end; }
 
@@ -455,34 +515,44 @@ body {
 }
 .screen-login {
   width: 100%; height: 100%;
-  background: var(--hero-gradient);
+  background: var(--bg-base);
   display: flex; flex-direction: column; align-items: center;
   padding-top: 100px; overflow: auto;
+  position: relative;
+}
+.screen-login::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 60% at 50% 0%, rgba(169,76,232,0.18) 0%, transparent 60%);
+  pointer-events: none;
 }
 .glass-card {
+  position: relative;
   display: flex; flex-direction: column; align-items: center; gap: 24px;
   width: 343px; padding: 40px 24px;
   border-radius: 24px;
-  background: var(--glassmorphism-bg); backdrop-filter: blur(20px);
-  border: 1px solid var(--glassmorphism-border);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-xl);
 }
 .glass-card img { height: 44px; }
-.glass-card h2 { font-family: 'Poppins', sans-serif; font-size: 22px; font-weight: 700; color: var(--dark-gray); }
+.glass-card h2 { font-family: var(--font-display); font-style: italic; font-size: 36px; font-weight: 400; color: var(--fg-primary); line-height: 1.05; }
 .login-or {
   display: flex; align-items: center; gap: 12px; width: 100%;
 }
-.login-or .line { flex: 1; height: 1px; background: var(--silver); }
-.login-or span { font-size: 13px; color: var(--mid-gray); }
+.login-or .line { flex: 1; height: 1px; background: var(--border-default); }
+.login-or span { font-size: 13px; color: var(--fg-secondary); }
 .social-row { display: flex; justify-content: center; gap: 12px; }
 .social-btn {
   width: 90px; height: 48px; border-radius: 12px; border: none; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   font-size: 18px; font-weight: 600;
 }
-.social-apple { background: var(--jet-black); color: white; }
-.social-google { background: white; border: 1px solid var(--silver); color: var(--dark-gray); }
-.social-fb { background: #1877F2; color: white; }
-.link-purple { font-size: 13px; color: var(--primary-purple); text-decoration: none; }
+.social-apple { background: var(--bg-overlay); color: var(--fg-primary); border: 1px solid var(--border-default); }
+.social-google { background: var(--bg-overlay); border: 1px solid var(--border-default); color: var(--fg-primary); }
+.social-fb { background: var(--bg-overlay); color: var(--fg-primary); border: 1px solid var(--border-default); }
+.link-purple { font-size: 13px; color: var(--brand-purple); text-decoration: none; }
 .link-purple:hover { text-decoration: underline; }
 
 .screens-row {
@@ -525,26 +595,49 @@ body {
      1. COLOR TOKENS
      ============================================ -->
 <div class="section">
-  <h2 class="section-title">Color Tokens</h2>
-  <p class="section-sub">17 design tokens used across the Flaunt platform. Use CSS custom properties for consistency.</p>
+  <h2 class="section-title">Color tokens</h2>
+  <p class="section-sub">After-Dark Editorial. Brand primitives stay locked; semantic surfaces theme themselves dark by default.</p>
+
+  <h3 class="subsection-title" style="margin-top:16px">Brand</h3>
   <div class="color-grid">
-    <div class="color-card"><div class="color-swatch" style="background:#A94CE8"></div><div class="color-info"><div class="color-name">primary-purple</div><div class="color-hex">#A94CE8</div></div></div>
-    <div class="color-card"><div class="color-swatch" style="background:#E364C4"></div><div class="color-info"><div class="color-name">primary-pink</div><div class="color-hex">#E364C4</div></div></div>
-    <div class="color-card"><div class="color-swatch" style="background:#B8860B"></div><div class="color-info"><div class="color-name">gold</div><div class="color-hex">#B8860B</div></div></div>
-    <div class="color-card"><div class="color-swatch" style="background:#FFD700"></div><div class="color-info"><div class="color-name">gold-highlight</div><div class="color-hex">#FFD700</div></div></div>
-    <div class="color-card"><div class="color-swatch" style="background:#A94CE833"></div><div class="color-info"><div class="color-name">ai-glow</div><div class="color-hex">#A94CE833</div></div></div>
-    <div class="color-card"><div class="color-swatch" style="background:#1A0A2E"></div><div class="color-info"><div class="color-name">dark-hero-bg</div><div class="color-hex">#1A0A2E</div></div></div>
-    <div class="color-card"><div class="color-swatch" style="background:linear-gradient(135deg,#fff,#eee);border:1px solid #eee"></div><div class="color-info"><div class="color-name">glassmorphism-bg</div><div class="color-hex">#FFFFFFB8</div></div></div>
-    <div class="color-card"><div class="color-swatch" style="background:#F5F5F5"></div><div class="color-info"><div class="color-name">light-gray-bg</div><div class="color-hex">#F5F5F5</div></div></div>
-    <div class="color-card"><div class="color-swatch" style="background:#0C0C0C"></div><div class="color-info"><div class="color-name">jet-black</div><div class="color-hex">#0C0C0C</div></div></div>
-    <div class="color-card"><div class="color-swatch" style="background:#FFFFFF;border:1px solid #eee"></div><div class="color-info"><div class="color-name">pure-white</div><div class="color-hex">#FFFFFF</div></div></div>
-    <div class="color-card"><div class="color-swatch" style="background:#222222"></div><div class="color-info"><div class="color-name">dark-gray</div><div class="color-hex">#222222</div></div></div>
-    <div class="color-card"><div class="color-swatch" style="background:#555555"></div><div class="color-info"><div class="color-name">mid-gray</div><div class="color-hex">#555555</div></div></div>
-    <div class="color-card"><div class="color-swatch" style="background:#EAEAEA"></div><div class="color-info"><div class="color-name">silver</div><div class="color-hex">#EAEAEA</div></div></div>
-    <div class="color-card"><div class="color-swatch" style="background:#1A7A4A"></div><div class="color-info"><div class="color-name">success-green</div><div class="color-hex">#1A7A4A</div></div></div>
-    <div class="color-card"><div class="color-swatch" style="background:#C07A00"></div><div class="color-info"><div class="color-name">warning-amber</div><div class="color-hex">#C07A00</div></div></div>
-    <div class="color-card"><div class="color-swatch" style="background:#C0392B"></div><div class="color-info"><div class="color-name">error-red</div><div class="color-hex">#C0392B</div></div></div>
+    <div class="color-card"><div class="color-swatch" style="background:#A94CE8"></div><div class="color-info"><div class="color-name">brand-purple</div><div class="color-hex">#A94CE8</div></div></div>
+    <div class="color-card"><div class="color-swatch" style="background:#E364C4"></div><div class="color-info"><div class="color-name">brand-pink</div><div class="color-hex">#E364C4</div></div></div>
+    <div class="color-card"><div class="color-swatch" style="background:#B8860B"></div><div class="color-info"><div class="color-name">brand-gold</div><div class="color-hex">#B8860B</div></div></div>
+    <div class="color-card"><div class="color-swatch" style="background:#FFD700"></div><div class="color-info"><div class="color-name">brand-gold-light</div><div class="color-hex">#FFD700</div></div></div>
   </div>
+
+  <h3 class="subsection-title" style="margin-top:32px">Surfaces (dark default)</h3>
+  <div class="color-grid">
+    <div class="color-card"><div class="color-swatch" style="background:#0A0A0F"></div><div class="color-info"><div class="color-name">bg-base</div><div class="color-hex">#0A0A0F</div></div></div>
+    <div class="color-card"><div class="color-swatch" style="background:#15151D"></div><div class="color-info"><div class="color-name">bg-surface</div><div class="color-hex">#15151D</div></div></div>
+    <div class="color-card"><div class="color-swatch" style="background:#1F1F2A"></div><div class="color-info"><div class="color-name">bg-raised</div><div class="color-hex">#1F1F2A</div></div></div>
+    <div class="color-card"><div class="color-swatch" style="background:#2A2A38"></div><div class="color-info"><div class="color-name">bg-overlay</div><div class="color-hex">#2A2A38</div></div></div>
+  </div>
+
+  <h3 class="subsection-title" style="margin-top:32px">Foreground</h3>
+  <div class="color-grid">
+    <div class="color-card"><div class="color-swatch" style="background:#F4F4F8"></div><div class="color-info"><div class="color-name">fg-primary</div><div class="color-hex">#F4F4F8</div></div></div>
+    <div class="color-card"><div class="color-swatch" style="background:#A0A0B0"></div><div class="color-info"><div class="color-name">fg-secondary</div><div class="color-hex">#A0A0B0</div></div></div>
+    <div class="color-card"><div class="color-swatch" style="background:#6B6B7A"></div><div class="color-info"><div class="color-name">fg-muted</div><div class="color-hex">#6B6B7A</div></div></div>
+  </div>
+
+  <h3 class="subsection-title" style="margin-top:32px">Status</h3>
+  <div class="color-grid">
+    <div class="color-card"><div class="color-swatch" style="background:#22C55E"></div><div class="color-info"><div class="color-name">status-success</div><div class="color-hex">#22C55E</div></div></div>
+    <div class="color-card"><div class="color-swatch" style="background:#F59E0B"></div><div class="color-info"><div class="color-name">status-warning</div><div class="color-hex">#F59E0B</div></div></div>
+    <div class="color-card"><div class="color-swatch" style="background:#EF4444"></div><div class="color-info"><div class="color-name">status-error</div><div class="color-hex">#EF4444</div></div></div>
+    <div class="color-card"><div class="color-swatch" style="background:#A94CE8"></div><div class="color-info"><div class="color-name">status-info</div><div class="color-hex">#A94CE8</div></div></div>
+  </div>
+
+  <h3 class="subsection-title" style="margin-top:32px">Accent glows (replace glass)</h3>
+  <div class="color-grid">
+    <div class="color-card"><div class="color-swatch" style="background:rgba(169,76,232,0.40);box-shadow:0 0 24px rgba(169,76,232,0.40) inset"></div><div class="color-info"><div class="color-name">accent-glow-purple</div><div class="color-hex">rgba(169,76,232,0.40)</div></div></div>
+    <div class="color-card"><div class="color-swatch" style="background:rgba(227,100,196,0.40);box-shadow:0 0 24px rgba(227,100,196,0.40) inset"></div><div class="color-info"><div class="color-name">accent-glow-pink</div><div class="color-hex">rgba(227,100,196,0.40)</div></div></div>
+  </div>
+
+  <p class="section-sub" style="margin-top:32px">
+    <strong style="color:var(--fg-primary)">Retired:</strong> primary-purple, primary-pink, gold-highlight, ai-glow, dark-hero-bg, glassmorphism-bg, glassmorphism-border, light-gray-bg, jet-black, pure-white, dark-gray, mid-gray, silver, success-green, warning-amber, error-red. The brand colors moved to <code style="font-family:var(--font-mono);color:var(--brand-purple)">brand-*</code>, surfaces and text became semantic, and glassmorphism is gone.
+  </p>
 </div>
 
 <div class="divider"></div>
@@ -554,16 +647,16 @@ body {
      ============================================ -->
 <div class="section">
   <h2 class="section-title">Typography</h2>
-  <p class="section-sub">Poppins for headings, Inter for body text. System font stack as fallback.</p>
-  <div class="type-row"><div class="type-label">Poppins 800 / 32px</div><div class="type-sample font-heading" style="font-size:32px;font-weight:800">Page Title</div></div>
-  <div class="type-row"><div class="type-label">Poppins 700 / 24px</div><div class="type-sample font-heading" style="font-size:24px;font-weight:700">Section Heading</div></div>
-  <div class="type-row"><div class="type-label">Poppins 600 / 18px</div><div class="type-sample font-heading" style="font-size:18px;font-weight:600">Card Title</div></div>
-  <div class="type-row"><div class="type-label">Poppins 600 / 16px</div><div class="type-sample font-heading" style="font-size:16px;font-weight:600">Button Label</div></div>
-  <div class="type-row"><div class="type-label">Poppins 600 / 14px</div><div class="type-sample font-heading" style="font-size:14px;font-weight:600">Subtitle</div></div>
-  <div class="type-row"><div class="type-label">Inter 400 / 15px</div><div class="type-sample" style="font-size:15px;font-weight:400">Body text for content and descriptions</div></div>
-  <div class="type-row"><div class="type-label">Inter 300 / 14px</div><div class="type-sample" style="font-size:14px;font-weight:300">Secondary body text and captions</div></div>
-  <div class="type-row"><div class="type-label">Inter 500 / 13px</div><div class="type-sample" style="font-size:13px;font-weight:500">Label, input helper text</div></div>
-  <div class="type-row"><div class="type-label">Inter 600 / 11px / 3px LS</div><div class="type-sample" style="font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--primary-purple)">SECTION LABEL</div></div>
+  <p class="section-sub">Instrument Serif for editorial display moments. Geist for everything else. Geist Mono for code, IDs, numeric tables. Poppins and Inter are gone.</p>
+  <div class="type-row"><div class="type-label">Instrument Serif italic / 56px</div><div class="type-sample" style="font-family:var(--font-display);font-style:italic;font-size:56px;font-weight:400;line-height:1.0">Welcome back.</div></div>
+  <div class="type-row"><div class="type-label">Instrument Serif italic / 32px</div><div class="type-sample" style="font-family:var(--font-display);font-style:italic;font-size:32px;font-weight:400;line-height:1.05">Section heading</div></div>
+  <div class="type-row"><div class="type-label">Geist 600 / 18px</div><div class="type-sample" style="font-family:var(--font-body);font-size:18px;font-weight:600">Card title</div></div>
+  <div class="type-row"><div class="type-label">Geist 600 / 16px</div><div class="type-sample" style="font-family:var(--font-body);font-size:16px;font-weight:600">Button label</div></div>
+  <div class="type-row"><div class="type-label">Geist 500 / 14px</div><div class="type-sample" style="font-family:var(--font-body);font-size:14px;font-weight:500">Subtitle / strong body</div></div>
+  <div class="type-row"><div class="type-label">Geist 400 / 15px</div><div class="type-sample" style="font-family:var(--font-body);font-size:15px;font-weight:400">Body text for content and descriptions</div></div>
+  <div class="type-row"><div class="type-label">Geist 400 / 13px</div><div class="type-sample" style="font-family:var(--font-body);font-size:13px;font-weight:400;color:var(--fg-secondary)">Secondary body, captions, helper text</div></div>
+  <div class="type-row"><div class="type-label">Geist Mono 500 / 11px / 0.2em LS</div><div class="type-sample" style="font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--brand-purple)">SECTION LABEL</div></div>
+  <div class="type-row"><div class="type-label">Geist Mono 400 / 13px</div><div class="type-sample" style="font-family:var(--font-mono);font-size:13px;font-weight:400;color:var(--fg-secondary)">code · token · 0xDEADBEEF</div></div>
 </div>
 
 <div class="divider"></div>
@@ -614,7 +707,7 @@ body {
     <div class="component-desc">Outlined secondary button. File: <code>components/ButtonGhost.tsx</code></div>
     <div class="states-row">
       <div class="state-col"><div class="state-label">Default</div><button class="btn-ghost light">Button</button></div>
-      <div class="state-col"><div class="state-label">Hover</div><button class="btn-ghost" style="border-color:var(--primary-purple);color:var(--primary-purple);background:rgba(169,76,232,0.06)">Button</button></div>
+      <div class="state-col"><div class="state-label">Hover</div><button class="btn-ghost" style="border-color:var(--brand-purple);color:var(--brand-purple);background:rgba(169,76,232,0.06)">Button</button></div>
       <div class="state-col"><div class="state-label">Active</div><button class="btn-ghost" style="border-color:#9A3DD9;color:#9A3DD9;transform:scale(0.98)">Button</button></div>
       <div class="state-col"><div class="state-label">Disabled</div><button class="btn-ghost disabled">Button</button></div>
     </div>
@@ -728,13 +821,13 @@ body {
     <div class="component-desc">Branded post with "Sponsored" badge and shop CTA. File: <code>components/SponsoredPostCard.tsx</code></div>
     <div class="post-card">
       <div class="post-header">
-        <div class="avatar md" style="background:var(--gold)">G</div>
+        <div class="avatar md" style="background:var(--brand-gold-light)">G</div>
         <div class="post-user-info"><div class="post-user-name">Gucci</div><div class="post-user-handle">@gucci</div></div>
         <span class="sponsored-badge">Sponsored</span>
       </div>
       <img class="post-image" src="https://images.unsplash.com/photo-1591375275773-59691a15defa?w=800&h=400&fit=crop" alt="">
       <div class="post-caption" style="padding-bottom:12px">The new Bamboo 1947 — a timeless icon, reimagined.</div>
-      <div style="width:100%;height:44px;display:flex;align-items:center;justify-content:center;background:var(--brand-gradient);color:white;font-family:'Poppins',sans-serif;font-size:14px;font-weight:600;cursor:pointer">Shop Now</div>
+      <div style="width:100%;height:44px;display:flex;align-items:center;justify-content:center;background:var(--brand-gradient);color:white;font-family:var(--font-body);font-size:14px;font-weight:600;cursor:pointer">Shop Now</div>
       <div class="post-actions">
         <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
         <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
@@ -810,7 +903,7 @@ body {
   <div class="screens-row">
     <!-- Login Screen -->
     <div>
-      <div style="font-family:'Poppins',sans-serif;font-size:14px;font-weight:600;margin-bottom:12px;color:var(--dark-gray)">Login</div>
+      <div style="font-family:var(--font-body);font-size:14px;font-weight:600;margin-bottom:12px;color:var(--fg-primary)">Login</div>
       <div class="screen-frame">
         <div class="screen-login">
           <div class="glass-card">
@@ -834,7 +927,7 @@ body {
 
     <!-- Sign Up Step 1 -->
     <div>
-      <div style="font-family:'Poppins',sans-serif;font-size:14px;font-weight:600;margin-bottom:12px;color:var(--dark-gray)">Sign Up &mdash; Step 1</div>
+      <div style="font-family:var(--font-body);font-size:14px;font-weight:600;margin-bottom:12px;color:var(--fg-primary)">Sign Up &mdash; Step 1</div>
       <div class="screen-frame">
         <div class="screen-login" style="padding-top:80px">
           <!-- Back button -->
@@ -845,27 +938,27 @@ body {
             <!-- Progress dots -->
             <div style="display:flex;justify-content:center;gap:8px;width:100%">
               <div style="width:24px;height:4px;border-radius:2px;background:var(--brand-gradient)"></div>
-              <div style="width:24px;height:4px;border-radius:2px;background:var(--silver)"></div>
-              <div style="width:24px;height:4px;border-radius:2px;background:var(--silver)"></div>
-              <div style="width:24px;height:4px;border-radius:2px;background:var(--silver)"></div>
+              <div style="width:24px;height:4px;border-radius:2px;background:var(--border-default)"></div>
+              <div style="width:24px;height:4px;border-radius:2px;background:var(--border-default)"></div>
+              <div style="width:24px;height:4px;border-radius:2px;background:var(--border-default)"></div>
             </div>
             <h2 class="font-heading" style="font-size:24px">Join FLAUNT</h2>
-            <p style="font-size:14px;color:var(--mid-gray);text-align:center">Choose how you want to use Flaunt</p>
+            <p style="font-size:14px;color:var(--fg-secondary);text-align:center">Choose how you want to use Flaunt</p>
             <!-- Role cards -->
             <div style="display:flex;gap:16px;width:100%">
-              <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;height:160px;border-radius:16px;border:2px solid transparent;background-image:linear-gradient(rgba(169,76,232,0.05),rgba(169,76,232,0.05)),linear-gradient(225deg,var(--primary-purple),var(--primary-pink));background-origin:border-box;background-clip:padding-box,border-box;cursor:pointer">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;height:160px;border-radius:16px;border:2px solid var(--brand-purple);background:rgba(169,76,232,0.10);box-shadow:var(--shadow-glow-purple);cursor:pointer">
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#A94CE8" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                 <span class="font-heading" style="font-size:16px;font-weight:600">I'm a Flaunter</span>
-                <span style="font-size:12px;color:var(--mid-gray)">Share what I love</span>
+                <span style="font-size:12px;color:var(--fg-secondary)">Share what I love</span>
               </div>
-              <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;height:160px;border-radius:16px;border:1px solid var(--silver);background:white;cursor:pointer">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;height:160px;border-radius:16px;border:1px solid var(--border-default);background:var(--bg-surface);cursor:pointer">
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#B8860B" stroke-width="2" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
                 <span class="font-heading" style="font-size:16px;font-weight:600">I'm a Brand</span>
-                <span style="font-size:12px;color:var(--mid-gray)">Discover advocates</span>
+                <span style="font-size:12px;color:var(--fg-secondary)">Discover advocates</span>
               </div>
             </div>
             <button class="btn-primary" style="width:100%">Continue</button>
-            <span style="font-size:12px;color:var(--mid-gray)">Free forever. No credit card needed.</span>
+            <span style="font-size:12px;color:var(--fg-secondary)">Free forever. No credit card needed.</span>
             <a href="#" class="link-purple">Already have an account? Log In</a>
           </div>
         </div>
@@ -874,23 +967,23 @@ body {
 
     <!-- Global Feed -->
     <div>
-      <div style="font-family:'Poppins',sans-serif;font-size:14px;font-weight:600;margin-bottom:12px;color:var(--dark-gray)">Global Feed</div>
-      <div class="screen-frame" style="background:var(--light-gray-bg);display:flex;flex-direction:column">
+      <div style="font-family:var(--font-body);font-size:14px;font-weight:600;margin-bottom:12px;color:var(--fg-primary)">Global Feed</div>
+      <div class="screen-frame" style="background:var(--bg-overlay);display:flex;flex-direction:column">
         <!-- Header -->
-        <div style="display:flex;align-items:center;justify-content:space-between;height:52px;padding:0 16px;background:white;border-bottom:1px solid var(--silver);flex-shrink:0">
+        <div style="display:flex;align-items:center;justify-content:space-between;height:52px;padding:0 16px;background:var(--bg-surface);border-bottom:1px solid var(--border-default);flex-shrink:0">
           <img src="./images/flaunt-wordmark.png" alt="Flaunt" style="height:32px">
           <div style="display:flex;gap:16px">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--dark-gray)" stroke-width="2" stroke-linecap="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--dark-gray)" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--fg-primary)" stroke-width="2" stroke-linecap="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--fg-primary)" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
           </div>
         </div>
         <!-- Tabs -->
-        <div style="display:flex;height:44px;background:white;flex-shrink:0">
-          <div style="flex:1;display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-size:14px;font-weight:600;color:var(--dark-gray);border-bottom:2px solid var(--primary-purple)">For You</div>
-          <div style="flex:1;display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-size:14px;font-weight:500;color:#999">Following</div>
+        <div style="display:flex;height:44px;background:var(--bg-surface);flex-shrink:0">
+          <div style="flex:1;display:flex;align-items:center;justify-content:center;font-family:var(--font-body);font-size:14px;font-weight:600;color:var(--fg-primary);border-bottom:2px solid var(--brand-purple)">For You</div>
+          <div style="flex:1;display:flex;align-items:center;justify-content:center;font-family:var(--font-body);font-size:14px;font-weight:500;color:var(--fg-muted)">Following</div>
         </div>
         <!-- Trending -->
-        <div style="display:flex;gap:8px;padding:8px 16px;background:white;flex-shrink:0">
+        <div style="display:flex;gap:8px;padding:8px 16px;background:var(--bg-surface);flex-shrink:0">
           <button class="pill brand">#Streetwear</button>
           <button class="pill brand">#LuxuryTravel</button>
           <button class="pill brand">#Supercars</button>
@@ -929,37 +1022,37 @@ body {
   <p class="section-sub">Complete list of deliverables in this handover package.</p>
   <table style="width:100%;border-collapse:collapse;font-size:14px">
     <thead>
-      <tr style="border-bottom:2px solid var(--silver);text-align:left">
-        <th style="padding:10px 16px;font-family:'Poppins',sans-serif;font-weight:600">File</th>
-        <th style="padding:10px 16px;font-family:'Poppins',sans-serif;font-weight:600">Purpose</th>
+      <tr style="border-bottom:2px solid var(--border-default);text-align:left">
+        <th style="padding:10px 16px;font-family:var(--font-body);font-weight:600">File</th>
+        <th style="padding:10px 16px;font-family:var(--font-body);font-weight:600">Purpose</th>
       </tr>
     </thead>
     <tbody>
-      <tr style="border-bottom:1px solid var(--silver)"><td style="padding:8px 16px;font-family:monospace;font-size:13px;color:var(--primary-purple)">styles/globals.css</td><td style="padding:8px 16px">Tailwind v4 + CSS custom properties for all 17 design tokens</td></tr>
-      <tr style="border-bottom:1px solid var(--silver)"><td style="padding:8px 16px;font-family:monospace;font-size:13px;color:var(--primary-purple)">components/ButtonPrimary.tsx</td><td style="padding:8px 16px">Gradient CTA button with hover/active/disabled/loading states</td></tr>
-      <tr style="border-bottom:1px solid var(--silver)"><td style="padding:8px 16px;font-family:monospace;font-size:13px;color:var(--primary-purple)">components/ButtonGhost.tsx</td><td style="padding:8px 16px">Outlined secondary button</td></tr>
-      <tr style="border-bottom:1px solid var(--silver)"><td style="padding:8px 16px;font-family:monospace;font-size:13px;color:var(--primary-purple)">components/Input.tsx</td><td style="padding:8px 16px">Text input with label, focus/error/disabled states</td></tr>
-      <tr style="border-bottom:1px solid var(--silver)"><td style="padding:8px 16px;font-family:monospace;font-size:13px;color:var(--primary-purple)">components/Avatar.tsx</td><td style="padding:8px 16px">User avatar (sm/md/lg) with gradient fallback + status dot</td></tr>
-      <tr style="border-bottom:1px solid var(--silver)"><td style="padding:8px 16px;font-family:monospace;font-size:13px;color:var(--primary-purple)">components/Pill.tsx</td><td style="padding:8px 16px">Tag/filter pill (default, selected, brand, disabled)</td></tr>
-      <tr style="border-bottom:1px solid var(--silver)"><td style="padding:8px 16px;font-family:monospace;font-size:13px;color:var(--primary-purple)">components/BottomNav.tsx</td><td style="padding:8px 16px">6-tab bottom navigation with gradient create button</td></tr>
-      <tr style="border-bottom:1px solid var(--silver)"><td style="padding:8px 16px;font-family:monospace;font-size:13px;color:var(--primary-purple)">components/PostCard.tsx</td><td style="padding:8px 16px">Feed post card with AI badges, brand tags, actions</td></tr>
-      <tr style="border-bottom:1px solid var(--silver)"><td style="padding:8px 16px;font-family:monospace;font-size:13px;color:var(--primary-purple)">components/StoryAdCard.tsx</td><td style="padding:8px 16px">Full-bleed story ad with gold border, overlay CTA</td></tr>
-      <tr style="border-bottom:1px solid var(--silver)"><td style="padding:8px 16px;font-family:monospace;font-size:13px;color:var(--primary-purple)">components/SponsoredPostCard.tsx</td><td style="padding:8px 16px">Sponsored post with badge and shop CTA</td></tr>
-      <tr style="border-bottom:1px solid var(--silver)"><td style="padding:8px 16px;font-family:monospace;font-size:13px;color:var(--primary-purple)">components/BoostedPostCard.tsx</td><td style="padding:8px 16px">Boosted post with rocket icon and reach metrics</td></tr>
-      <tr style="border-bottom:1px solid var(--silver)"><td style="padding:8px 16px;font-family:monospace;font-size:13px;color:var(--primary-purple)">components/TrendAnalyzerCard.tsx</td><td style="padding:8px 16px">AI trend card with accent bar, type pill, dual CTAs</td></tr>
-      <tr style="border-bottom:1px solid var(--silver)"><td style="padding:8px 16px;font-family:monospace;font-size:13px;color:var(--primary-purple)">components/index.ts</td><td style="padding:8px 16px">Barrel export for all 11 components</td></tr>
-      <tr style="border-bottom:1px solid var(--silver)"><td style="padding:8px 16px;font-family:monospace;font-size:13px;color:var(--primary-purple)">screens/LoginScreen.tsx</td><td style="padding:8px 16px">Login screen with glassmorphism card + social login</td></tr>
-      <tr style="border-bottom:1px solid var(--silver)"><td style="padding:8px 16px;font-family:monospace;font-size:13px;color:var(--primary-purple)">screens/SignUpStep1Screen.tsx</td><td style="padding:8px 16px">Sign-up wizard step 1 — role selection</td></tr>
-      <tr style="border-bottom:1px solid var(--silver)"><td style="padding:8px 16px;font-family:monospace;font-size:13px;color:var(--primary-purple)">screens/GlobalFeedScreen.tsx</td><td style="padding:8px 16px">Full feed with tabs, trending tags, mixed feed items</td></tr>
-      <tr style="border-bottom:1px solid var(--silver)"><td style="padding:8px 16px;font-family:monospace;font-size:13px;color:var(--primary-purple)">screens/index.ts</td><td style="padding:8px 16px">Barrel export for screen components</td></tr>
-      <tr style="border-bottom:1px solid var(--silver)"><td style="padding:8px 16px;font-family:monospace;font-size:13px;color:var(--primary-purple)">images/flaunt-wordmark.png</td><td style="padding:8px 16px">Flaunt wordmark logo (FLAUNT with camera icon)</td></tr>
-      <tr><td style="padding:8px 16px;font-family:monospace;font-size:13px;color:var(--primary-purple)">images/flaunt-icon.png</td><td style="padding:8px 16px">Flaunt icon logo (camera shutter with sparkles)</td></tr>
+      <tr style="border-bottom:1px solid var(--border-default)"><td style="padding:8px 16px;font-family:var(--font-mono);font-size:13px;color:var(--brand-purple)">styles/globals.css</td><td style="padding:8px 16px">Tailwind v4 + CSS custom properties for all 17 design tokens</td></tr>
+      <tr style="border-bottom:1px solid var(--border-default)"><td style="padding:8px 16px;font-family:var(--font-mono);font-size:13px;color:var(--brand-purple)">components/ButtonPrimary.tsx</td><td style="padding:8px 16px">Gradient CTA button with hover/active/disabled/loading states</td></tr>
+      <tr style="border-bottom:1px solid var(--border-default)"><td style="padding:8px 16px;font-family:var(--font-mono);font-size:13px;color:var(--brand-purple)">components/ButtonGhost.tsx</td><td style="padding:8px 16px">Outlined secondary button</td></tr>
+      <tr style="border-bottom:1px solid var(--border-default)"><td style="padding:8px 16px;font-family:var(--font-mono);font-size:13px;color:var(--brand-purple)">components/Input.tsx</td><td style="padding:8px 16px">Text input with label, focus/error/disabled states</td></tr>
+      <tr style="border-bottom:1px solid var(--border-default)"><td style="padding:8px 16px;font-family:var(--font-mono);font-size:13px;color:var(--brand-purple)">components/Avatar.tsx</td><td style="padding:8px 16px">User avatar (sm/md/lg) with gradient fallback + status dot</td></tr>
+      <tr style="border-bottom:1px solid var(--border-default)"><td style="padding:8px 16px;font-family:var(--font-mono);font-size:13px;color:var(--brand-purple)">components/Pill.tsx</td><td style="padding:8px 16px">Tag/filter pill (default, selected, brand, disabled)</td></tr>
+      <tr style="border-bottom:1px solid var(--border-default)"><td style="padding:8px 16px;font-family:var(--font-mono);font-size:13px;color:var(--brand-purple)">components/BottomNav.tsx</td><td style="padding:8px 16px">6-tab bottom navigation with gradient create button</td></tr>
+      <tr style="border-bottom:1px solid var(--border-default)"><td style="padding:8px 16px;font-family:var(--font-mono);font-size:13px;color:var(--brand-purple)">components/PostCard.tsx</td><td style="padding:8px 16px">Feed post card with AI badges, brand tags, actions</td></tr>
+      <tr style="border-bottom:1px solid var(--border-default)"><td style="padding:8px 16px;font-family:var(--font-mono);font-size:13px;color:var(--brand-purple)">components/StoryAdCard.tsx</td><td style="padding:8px 16px">Full-bleed story ad with gold border, overlay CTA</td></tr>
+      <tr style="border-bottom:1px solid var(--border-default)"><td style="padding:8px 16px;font-family:var(--font-mono);font-size:13px;color:var(--brand-purple)">components/SponsoredPostCard.tsx</td><td style="padding:8px 16px">Sponsored post with badge and shop CTA</td></tr>
+      <tr style="border-bottom:1px solid var(--border-default)"><td style="padding:8px 16px;font-family:var(--font-mono);font-size:13px;color:var(--brand-purple)">components/BoostedPostCard.tsx</td><td style="padding:8px 16px">Boosted post with rocket icon and reach metrics</td></tr>
+      <tr style="border-bottom:1px solid var(--border-default)"><td style="padding:8px 16px;font-family:var(--font-mono);font-size:13px;color:var(--brand-purple)">components/TrendAnalyzerCard.tsx</td><td style="padding:8px 16px">AI trend card with accent bar, type pill, dual CTAs</td></tr>
+      <tr style="border-bottom:1px solid var(--border-default)"><td style="padding:8px 16px;font-family:var(--font-mono);font-size:13px;color:var(--brand-purple)">components/index.ts</td><td style="padding:8px 16px">Barrel export for all 11 components</td></tr>
+      <tr style="border-bottom:1px solid var(--border-default)"><td style="padding:8px 16px;font-family:var(--font-mono);font-size:13px;color:var(--brand-purple)">screens/LoginScreen.tsx</td><td style="padding:8px 16px">Login screen on dark editorial surface with social login</td></tr>
+      <tr style="border-bottom:1px solid var(--border-default)"><td style="padding:8px 16px;font-family:var(--font-mono);font-size:13px;color:var(--brand-purple)">screens/SignUpStep1Screen.tsx</td><td style="padding:8px 16px">Sign-up wizard step 1 — role selection</td></tr>
+      <tr style="border-bottom:1px solid var(--border-default)"><td style="padding:8px 16px;font-family:var(--font-mono);font-size:13px;color:var(--brand-purple)">screens/GlobalFeedScreen.tsx</td><td style="padding:8px 16px">Full feed with tabs, trending tags, mixed feed items</td></tr>
+      <tr style="border-bottom:1px solid var(--border-default)"><td style="padding:8px 16px;font-family:var(--font-mono);font-size:13px;color:var(--brand-purple)">screens/index.ts</td><td style="padding:8px 16px">Barrel export for screen components</td></tr>
+      <tr style="border-bottom:1px solid var(--border-default)"><td style="padding:8px 16px;font-family:var(--font-mono);font-size:13px;color:var(--brand-purple)">images/flaunt-wordmark.png</td><td style="padding:8px 16px">Flaunt wordmark logo (FLAUNT with camera icon)</td></tr>
+      <tr><td style="padding:8px 16px;font-family:var(--font-mono);font-size:13px;color:var(--brand-purple)">images/flaunt-icon.png</td><td style="padding:8px 16px">Flaunt icon logo (camera shutter with sparkles)</td></tr>
     </tbody>
   </table>
 </div>
 
 <!-- Footer -->
-<footer style="text-align:center;padding:40px 24px;color:var(--mid-gray);font-size:13px;border-top:1px solid var(--silver)">
+<footer style="text-align:center;padding:40px 24px;color:var(--fg-secondary);font-size:13px;border-top:1px solid var(--border-default)">
   <img src="./images/flaunt-icon.png" alt="" style="height:32px;margin-bottom:12px;display:block;margin-left:auto;margin-right:auto">
   Flaunt Developer Handover &mdash; Generated April 2026
 </footer>
